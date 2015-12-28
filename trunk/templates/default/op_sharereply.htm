@@ -1,0 +1,97 @@
+{template "header.htm"}
+<script type="text/javascript" src="{$webaddr}/include/javascript/media.js"></script>
+
+<div id="body" class="ui-roundedbox"><div class="ui-roundedbox-corner ui-roundedbox-tl"><div class="ui-roundedbox-corner ui-roundedbox-tr"><div class="ui-roundedbox-corner ui-roundedbox-bl"><div class="ui-roundedbox-corner ui-roundedbox-br"><div class="ui-roundedbox-content">
+<div class="inner-content" id="friends">
+<div id="stream">
+    <div style="background:#FCF9E6;border-bottom:solid #eadc80 1px;padding:10px">
+        <p style="margin-bottom:5px"><b><a href="{$webaddr}/home/u.{$share_uid}" class="author">{$share_uname}</a> 分享了一个{$typedc}</b> <span class="stamp">{$sharetime}</span></p>
+        <!--{if ($link_data['musicvar'])}-->
+        <p><a href='{echo urldecode($link_data[musicvar])}' target='_blank'>{echo sub_url(urldecode($link_data['musicvar']),50)}</a></p>
+        <!--{elseif ($link_data['flashaddr'])}-->
+        <p><a href='{echo urldecode($link_data[flashaddr])}' target='_blank'>{echo sub_url(urldecode($link_data['flashaddr']),50)}</a></p>
+        <!--{elseif ($link_data['website'])}-->
+        <p><a href='{echo urldecode($link_data[website])}' target='_blank'>{echo sub_url(urldecode($link_data['website']),50)}</a></p>
+        <!--{elseif ($link_data['pictureaddr'])}-->
+        <p><a href='{echo urldecode($link_data[pictureaddr])}' target='_blank'>{echo sub_url(urldecode($link_data['pictureaddr']),50)}</a></p>
+        <!--{/if}-->
+    </div>
+    
+    <div style="margin:10px 0 10px 0">
+        <!--{if 'video' == $type}-->
+        <div class="viewbox" id="flash_div_{$share_id}">
+            <script>showFlash('{$link_data['host']}', '{echo urldecode($link_data['flashvar'])}', '', '{$share_id}');</script>
+        </div>
+        <!--{elseif 'music' == $type}-->
+        <div class="viewbox" id="flash_div_{$share_id}">
+            <script>showFlash('music', '{echo urldecode($link_data['musicvar'])}', '', '{$share_id}');</script>
+        </div>
+        <!--{elseif 'flash' == $type}-->
+        <div class="viewbox" id="flash_div_{$share_id}">
+            <script>showFlash('flash', '{echo urldecode($link_data['flashaddr'])}', '', '{$share_id}');</script>
+        </div>
+        <!--{elseif 'picture' == $type}-->
+            <center><img src="$link_data['pictureaddr']" style="width: expression(this.width > 700 ? '700px': true); max-width: 700px;"/><center>
+        <!--{/if}-->
+    </div>
+    
+    <!--{if ($content)}--><div class="quote"><span id="quote" class="q">{$content}</span></div><!--{/if}-->
+
+    <form method="post" action="{$webaddr}/op/sharereply" name="message" onSubmit="return isfun()" onkeydown="if(event.ctrlKey&&event.keyCode==13)this.submit()">
+        <h3>随便评论几句吧！<span class="headgray">Ctrl+Enter可直接发表</span><span class="headgray" style="margin-left:10px">(<span id="nums">0</span>/140)</span></h3>
+        <table class="top10">
+        <tr>
+        <td><img src="{$my[user_head]}" width="65px" height="65px" alt="{$my[user_name]}" class="imgborder"></td>
+        <td>&nbsp;</td>
+        <td><textarea name="content" id="contentbox" style="width:300px;height:60px"></textarea></td>
+        <td>&nbsp;&nbsp;</td>
+        <td><input type="hidden" name="action" value="sendreply" />
+            <input type="hidden" name="sid" value="{$share_id}" />
+            <input type="submit" class="formbutton" title="按Ctrl+Enter键发送消息" value="评论"/></td>
+        </tr>
+        </table>
+    </form>
+
+    <h3>大家的评论 ({$retimes})</h3>
+    <ol class="wa">
+    <!--{if ($i==0)}-->
+    <div style="margin:10px">暂时还没有评论！</div>
+    <!--{else}-->
+    <!--{loop $reply $key $val}-->
+    <li>
+    <a href="{$webaddr}/home/u.{$val[reuid]}" title="{$val[reuname]}" class="avatar"><img src="{$val[reuhead]}" alt="{$val[reuname]}" width="48px"/></a>
+    <a href="{$webaddr}/home/u.{$val[reuid]}" class="author">{$val[reuname]}</a>
+    <span class="stamp">{$val[reply_time]}</span>
+    <span class="op">
+    <!--{if ($my[user_id] && $my[user_id]==$val[reuid])}-->
+    <a class="delete" href="##" onclick="delmsg('{$webaddr}/op/sharereply/$sid&act=del&cid={$val[shre_id]}','确实要删除此条评论吗?',this.parentNode.parentNode)">删除</a>
+    <!--{/if}-->
+    </span><br/>
+    <span class="content">{$val[reply_body]}</span>
+    </li>
+    <!--{/loop}-->
+    </ol>
+    <!--{/if}-->
+</div>
+<!--{if ($pg_num>1)}-->
+<ul class="paginator">
+    <!--{if ($page!=1)}-->
+        <li><a href='{$webaddr}/op/sharereply/$sid/p.1' title='第一页' >第一页</a></li>
+    <!--{/if}-->
+    <!--{if ($pp>0)}-->
+        <li><a href='{$webaddr}/op/sharereply/$sid/p.$pp' title='上一页' >上一页</a></li>
+    <!--{/if}-->
+    <!--{for $page_from $page_end $i}-->
+        <!--{if ($page==$i)}--><li class="current"><!--{else}--><li><!--{/if}--><a href='{$webaddr}/op/sharereply/$sid/p.$i' title='第 $i 页' >$i</a></li>
+    <!--{/for}-->
+    <!--{if ($np<=$pg_num)}-->
+        <li><a href='{$webaddr}/op/sharereply/$sid/p.$np' title='下一页' >下一页</a></li>
+    <!--{/if}-->
+    <!--{if ($page!=$pg_num)}-->
+        <li><a href='{$webaddr}/op/sharereply/$sid/p.$pg_num' title='最后页' >最后页</a></li>
+    <!--{/if}-->
+</ul>
+<!--{/if}-->
+</div>
+</div></div></div></div></div></div>
+{template "foot.htm"}

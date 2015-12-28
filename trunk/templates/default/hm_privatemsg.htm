@@ -1,0 +1,76 @@
+<div id="primsghead">
+<form method="post" action="{$webaddr}/op/sendmsg" name="message" onkeydown="if(event.ctrlKey&&event.keyCode==13)this.submit()">
+    <h3>给 <select name="fuid"><option value=""></option><!--{loop $friloop $key $val}--><option value="$val[usid]">$val[usname]（{$val[usid]}）</option><!--{/loop}--></select> 发送私信 <span class="headgray" style="margin-left:10px">(<span id="pmnums">0</span>/140)</span></h3>
+    <table class="top5">
+    <tr>
+        <td><textarea name="content" id="pmcontentbox" rows="3" cols="40" style="width:380px;"></textarea></td>
+        <td>&nbsp;&nbsp;</td>
+        <td><input type="hidden" name="action" value="send" /><input type="hidden" name="refer" value="{$webaddr}/home?backto=privatemsg" /><input type="submit" class="formbutton" title="按Ctrl+Enter键发送消息" value="发送"/></td>
+    </tr>
+    </table>
+</form>
+</div>
+
+<div class="tabs top10">
+    <ul>
+        <!--{if ($_GET['pm']=="my")}--><li class="current"><!--{else}--><li><!--{/if}--><a href="javascript:void(0);" onclick="showhome('privatemsg','{$user[user_id]}','1','my')">我收到的私信<!--{if ($_GET['pm']=="my")}-->（{$total}）<!--{/if}--></a></li>
+        <!--{if ($_GET['pm']=="send")}--><li class="current"><!--{else}--><li><!--{/if}--><a href="javascript:void(0);" onclick="showhome('privatemsg','{$user[user_id]}','1','send')">我发出的私信<!--{if ($_GET['pm']=="send")}-->（{$total}）<!--{/if}--></a></li>
+    </ul>
+</div>
+
+<div id="stream" class="message">
+<ol class="wa">
+<!--{if ($i>0)}-->
+    <!--{loop $mymsg $key $val}-->
+    <li class="unlight">
+    <a href="{$webaddr}/home/u.{$val[home_uid]}" title="{$val[home_uname]}" class="avatar"><img src="{$val[home_uhead]}" alt="{$val[home_uname]}" /></a>
+    <span class="author"><!--{if ($_GET['pm']=="my")}-->来自<!--{elseif ($_GET['pm']=="send")}-->发给<!--{/if}--><a href="{$webaddr}/home/u.{$val[home_uid]}">{$val[home_uname]}</a>:</span>
+    <!--{if ($_GET['pm']=="my")}-->
+        <span class="content"><!--{if ($val[isread]==2)}--><b>{$val[content]}</b><!--{else}-->{$val[content]}<!--{/if}--></span>
+    <!--{else}-->
+        <span class="content">{$val[content]}</span>
+    <!--{/if}-->
+    <!--{if ($_GET['pm']=="send")}-->
+    <span class="stamp"><!--{if ($val[isread]==2)}-->[未读]<!--{else}-->[已读]<!--{/if}--></span>
+    <!--{/if}-->
+    <br/>
+    <span class="stamp">{$val[posttime]}</span> 
+    <!--{if ($my[user_id])}-->
+    <span class="op">
+    <!--{if ($my[user_id]==$user[user_id])}-->
+        <!--{if ($my[user_id]!=$val[home_uid] && $_GET['pm']=="my")}-->
+        <a class="reply" href="{$webaddr}/op/sendmsg/u.{$val[home_uid]}" title="回复{$val[home_uname]}">回复</a>
+        <!--{/if}-->
+        <a class="delete" href="##" onclick="delmsg('{$webaddr}/home/privatemsg&act=delmsg&mid={$val[contentid]}','确实要删除此条私信吗?',this.parentNode.parentNode)">删除</a>
+    <!--{/if}-->
+    </span>
+    <!--{/if}-->
+    </li>
+    <!--{/loop}-->
+<!--{else}-->
+    <li class="unlight">这里什么信息都没有</li>
+<!--{/if}-->
+</ol>
+</div>
+
+<!--{if ($pg_num>1)}-->
+<ul class="paginator">
+    <!--{if ($page!=1)}-->
+        <li><a href='#' onclick="showhome('privatemsg','{$user[user_id]}','1','{$_GET['pm']}')" title='第一页' >第一页</a></li>
+    <!--{/if}-->
+    <!--{if ($pp>0)}-->
+        <li><a href='#' onclick="showhome('privatemsg','{$user[user_id]}','{$pp}','{$_GET['pm']}')" title='上一页' >上一页</a></li>
+    <!--{/if}-->
+    <!--{for $page_from $page_end $i}-->
+        <!--{if ($page==$i)}--><li class="current"><!--{else}--><li><!--{/if}--><a href='#' onclick="showhome('privatemsg','{$user[user_id]}','{$i}','{$_GET['pm']}')" title='第 $i 页' >$i</a></li>
+    <!--{/for}-->
+    <!--{if ($np<=$pg_num)}-->
+        <li><a href='#' onclick="showhome('privatemsg','{$user[user_id]}','{$np}','{$_GET['pm']}')" title='下一页' >下一页</a></li>
+    <!--{/if}-->
+    <!--{if ($page!=$pg_num)}-->
+        <li><a href='#' onclick="showhome('privatemsg','{$user[user_id]}','{$pg_num}','{$_GET['pm']}')" title='最后页' >最后页</a></li>
+    <!--{/if}-->
+</ul>
+<!--{/if}-->
+
+<input type="hidden" value="{$noread}" id="hmprivatemsg">

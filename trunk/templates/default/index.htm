@@ -1,0 +1,44 @@
+{template "header.htm"}
+<table id="columns">
+<tr>
+<td id="main">
+    <img src="{$webaddr}/images/banner.jpg" width="500px" height="200px"><br/><br/>
+    <div id="featured">
+        <h2>推荐用户</h2>
+        <ul class="alist">{$tuijian}</ul>
+        <a href="{$webaddr}/browse" class="more">&raquo; 看看大家都在做什么</a>
+        <center><a href="{$webaddr}/op/register"><img src="{$webaddr}/images/{$temp_dir}/button-register.png" alt="注册"></a></center>
+    </div>
+</td>
+<td id="sidebar">
+    <div class="sect first-sect">
+        <h2>登 录</h2>
+        <form method="post" action="{$webaddr}/op/login" id="login">
+        <p>
+            <label class="label_input" for="mailadres">Email / Uid：</label>
+            <input tabindex="1" type="text" id="mailadres" name="mailadres" class="input_text" value="" />
+        </p>
+        <p>
+            <label class="label_input" for="password">登录密码：</label>
+            <input tabindex="2" type="password" id="password" name="password" class="input_text" value="" maxlength="32" />
+        </p>
+        <p>
+            <label class="label_check" for="rememberMe">
+            <input tabindex="3" type="checkbox" name="rememberMe" id="rememberMe" value="on" />&nbsp;&nbsp;下次自动登录
+            </label>
+        </p>
+        <p class="act">
+            <a href="{$webaddr}/op/reset" id="forgot">忘记密码了？</a>
+            <input type="hidden" name="action" value="login" />
+            <input tabindex="4" type="submit" class="formbutton" value="登录" />
+        </p>
+        </form>
+    </div>
+    <div class="sect">
+        <h2>公 告</h2>
+        <ul class="tlist">{$announce}</ul>
+    </div>
+</td>
+</tr>
+</table>
+{template "foot.htm"}

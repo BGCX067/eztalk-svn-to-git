@@ -1,0 +1,92 @@
+{template "header.htm"}
+
+<div id="body" class="ui-roundedbox"><div class="ui-roundedbox-corner ui-roundedbox-tl"><div class="ui-roundedbox-corner ui-roundedbox-tr"><div class="ui-roundedbox-corner ui-roundedbox-bl"><div class="ui-roundedbox-corner ui-roundedbox-br"><div class="ui-roundedbox-content">
+<div class="inner-content" id="friends">
+<div id="stream">
+    <div id="finder_finder" style="display: block;">
+         <div class="title">
+         <table border="0" width="100%">
+            <tr>
+                <td rowspan="2" width="60px"><a href="{$webaddr}/op/viewalbum/$alid"><img src="$face_photo" onerror="src='{$webaddr}/images/nophoto.jpg'" style="width:48px;border:1px #cccccc solid;padding:1px;display:block;"></a></td>
+                <td><a href="{$webaddr}/op/photo/u.$ptuid">{$ptuname}的相册</a></td>
+                <td align="right"  width="80px">
+                <!--{if ($ptuid==$my[user_id])}-->
+                <a href="{$webaddr}/op/photo/u.$my[user_id]&act=creatalbum" style="float:right" class="bl">创建相册</a>
+                <!--{/if}-->
+                </td>
+            </tr>
+            <tr>
+                <td>标题：{$album_name} <!--{if ($ptuid==$my[user_id])}--><a href="{$webaddr}/op/viewalbum/$alid&act=edit">[修改]</a><!--{/if}--></td>
+                <td align="right" width="80px">
+                <!--{if ($ptuid==$my[user_id])}-->
+                <a href="{$webaddr}/op/viewalbum/$alid&act=upload" style="float:right" class="bh">上传相片</a>
+                <!--{/if}-->
+                </td>
+            </tr>
+         </table>
+         </div>
+         
+         <!--{if ($ptuisclose==1 && $isfriend['allfri']!=1 && $ptuid!=$my[user_id] && $my[isadmin]!=1)}-->
+             <div style="margin:1.5em 0;padding:25px 20px 20px 120px;border:1px dashed #fc0;background:#fffbcc">
+             <img src="{$webaddr}/images/$temp_dir/lock.gif">  <b>只有和此用户互相关注才能查看信息。</b>
+             </div>
+         <!--{else}-->
+             <!--{if ($act=="upload" && $ptuid==$my[user_id])}-->
+             <div id="finder_searchnick" class="finder_block">
+                 <form action="{$webaddr}/op/viewalbum/$alid" method="POST" enctype="multipart/form-data">
+                 图片标题：<input type="text" name="phototitle" class="input_text" style="width:200px"/><span class="setgray">图片标题可不填写</span><br/><br/>
+                 选择图片：<input type="file" name="photo" class="file_input"/>
+                 <input type="hidden" name="action" value="upload"/>
+                 <input class="formbutton" type="submit" value="上传"/>
+                 <input class="formbutton" type="button" value="返回" onclick="location.href='{$webaddr}/op/viewalbum/$alid'"/>
+                 </form>
+             </div>
+             <!--{elseif ($act=="edit" && $ptuid==$my[user_id])}-->
+             <div id="finder_searchnick" class="finder_block">
+                 <form action="{$webaddr}/op/viewalbum/$alid" method="POST">
+                 新相册名：<input type="text" name="newalbumname" class="input_text" style="width:130px"/>
+                 <input type="hidden" name="action" value="edit"/>
+                 <input class="formbutton" type="submit" value="修改"/>
+                 <input class="formbutton" type="button" value="返回" onclick="location.href='{$webaddr}/op/viewalbum/$alid'"/>
+                 <span class="setgray">最多20个字符或10个汉字</span>
+                 </form>
+             </div>
+             <!--{else}-->
+                 <!--{if ($i==0)}-->
+                    <div class="topbottom20"><center>暂时还没有相片！</center></div>
+                 <!--{else}-->
+                    <!--{loop $photo $key $val}-->
+                    <div class="photoimg">
+                    <p><a href="{$webaddr}/op/viewphoto/$val[pt_id]" title="浏览图片"><img src="{$webaddr}/attachments/photo/user_{$ptuid}/{$val[pt_name]}" class="photoimgimg"></a></p>
+                    <p>{$val[time]} <!--{if ($ptuid==$my[user_id])}--><a href="##" onclick="delmsg('{$webaddr}/op/viewalbum&act=delphoto&&ptid=$val[pt_id]&alid=$alid','确实要删除该相片吗?',this.parentNode.parentNode)" title="删除相片"><img src="{$webaddr}/images/$temp_dir/icon-del.gif"></a><!--{/if}--></p>
+                    <p><a href="{$webaddr}/op/viewphoto/$val[pt_id]" title="浏览图片">{$val[pt_title]}</a></p>
+                    </div>
+                    <!--{/loop}-->
+                 <!--{/if}-->
+             <!--{/if}-->
+        <!--{/if}-->
+    </div>
+</div>
+<div style="clear:both"></div>
+<!--{if ($pg_num>1)}-->
+<ul class="paginator">
+    <!--{if ($page!=1)}-->
+        <li><a href='{$webaddr}/op/viewalbum/$alid/p.1' title='第一页' >第一页</a></li>
+    <!--{/if}-->
+    <!--{if ($pp>0)}-->
+        <li><a href='{$webaddr}/op/viewalbum/$alid/p.$pp' title='上一页' >上一页</a></li>
+    <!--{/if}-->
+    <!--{for $page_from $page_end $i}-->
+        <!--{if ($page==$i)}--><li class="current"><!--{else}--><li><!--{/if}--><a href='{$webaddr}/op/viewalbum/$alid/p.$i' title='第 $i 页' >$i</a></li>
+    <!--{/for}-->
+    <!--{if ($np<=$pg_num)}-->
+        <li><a href='{$webaddr}/op/viewalbum/$alid/p.$np' title='下一页' >下一页</a></li>
+    <!--{/if}-->
+    <!--{if ($page!=$pg_num)}-->
+        <li><a href='{$webaddr}/op/viewalbum/$alid/p.$pg_num' title='最后页' >最后页</a></li>
+    <!--{/if}-->
+</ul>
+<!--{/if}-->
+</div>
+</div></div></div></div></div></div>
+{template "foot.htm"}

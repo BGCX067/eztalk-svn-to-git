@@ -1,0 +1,90 @@
+{template "header.htm"}
+<table id="columns">
+<tr>
+<td id="main">
+    <form method="post" action="{$webaddr}/op/im" class="vf as">
+        <h3>IM提醒设置</h3>
+        <p>
+            通过&nbsp;&nbsp;<select name="gettype">
+            <option value="" <!--{if (!$my[getmsgtype])}-->selected="selected"<!--{/if}-->>不接受</option>
+            <!--{if (!$my[msnyz] && $my[msn])}--><option value="msn" <!--{if ($my[getmsgtype]=="msn")}-->selected="selected"<!--{/if}-->>MSN</option><!--{/if}--> 
+            <!--<option value="qq">qq</option>-->
+            <!--<option value="gtalk">gtalk</option>-->
+            </select>&nbsp;&nbsp;接受提醒&nbsp;&nbsp;
+            <input name="action" value="gettype" type="hidden">
+            <input type="submit" class="formbutton" value="保存" />
+        </p>
+    </form>
+
+    <!--{if ($my[msn])}-->
+    <form method="post" action="{$webaddr}/op/im" class="vf as">
+        <!--{if ($my[msnyz])}-->
+        <h3>MSN（未验证）</h3>
+        <div class="badgebox">
+        1、请将 $msnrobot 添加到你的 MSN 联系人列表中；<br/>
+        2、在 MSN 上提交验证码（{$my[msnyz]}）并获得确认方可绑定成功。
+        </div>
+        <!--{else}-->
+        <h3>MSN（已绑定）</h3>
+        <div class="badgebox">MSN 机器人账号：{$msnrobot}</div>
+        <!--{/if}--> 
+        <p>
+            <input tabindex="1" type="text" name="msn" class="input_text" style="width:200px" value="$my[msn]" disabled="disabled"/>
+            <input name="action" value="msnremove" type="hidden">
+            <input tabindex="2" type="submit" class="inlinebutton" value="删除并重设" onclick="return confirm('你确定要删除并重设吗？')" />
+        </p>
+        <p> 
+            <span>输入完整的账号，如：easytalk@hotmail.com</span>
+        </p>
+    </form>
+    <!--{else}-->
+    <form method="post" action="{$webaddr}/op/im" class="vf as">
+        <h3>MSN（暂不支持）</h3>
+        <p>
+            <input tabindex="1" type="text" name="msn" class="input_text" style="width:200px"/>
+            <input name="action" value="msn" type="hidden">
+            <input tabindex="2" type="submit" class="formbutton" value="保存" />
+        </p>
+        <p>
+            <span>输入完整的账号，如：easytalk@hotmail.com</span>
+        </p>
+    </form>
+    <!--{/if}-->
+
+    <form method="post" action="{$webaddr}/op/im" class="vf as">
+        <h3>GTALK（暂不支持）</h3>
+        <p>
+            <input tabindex="3" type="text" name="gtalk" class="input_text" style="width:200px"  disabled="disabled"/>
+            <input name="action" value="gtalk" type="hidden">
+            <input tabindex="4" type="button" class="inlinebutton" value="暂不支持" />
+        </p>
+        <p>
+            <span>输入完整的账号，如：easytalk@gmail.com</span>
+        </p>
+    </form>
+
+    <form method="post" action="{$webaddr}/op/im" class="vf as">
+        <h3>QQ（暂不支持）</h3>
+        <p>
+            <input tabindex="5" type="text" name="qq" class="input_text" style="width:200px"  disabled="disabled"/>
+            <input name="action" value="qq" type="hidden">
+            <input tabindex="6" type="button" class="inlinebutton" value="暂不支持" />
+        </p>
+    </form>
+</td>
+<td id="sidebar">
+    <h2>--设置中心菜单--</h2>
+    <div class="stabs">
+	<ul>
+		<li><a href="{$webaddr}/op/setting">基本信息设置</a></li>
+		<li><a href="{$webaddr}/op/account">修改密码</a></li>
+        <li><a href="{$webaddr}/op/mailauth">邮箱验证</a></li>
+        <li><a href="{$webaddr}/op/badge">插件</a></li>
+        <li><a href="{$webaddr}/op/theme">模板</a></li>
+        <li class="current"><a href="{$webaddr}/op/im">MSN / GTalk / QQ</a></li>
+	</ul>
+    </div>
+</td>
+</tr>
+</table>
+{template "foot.htm"}

@@ -1,0 +1,96 @@
+{template "header.htm"}
+
+<div id="body" class="ui-roundedbox"><div class="ui-roundedbox-corner ui-roundedbox-tl"><div class="ui-roundedbox-corner ui-roundedbox-tr"><div class="ui-roundedbox-corner ui-roundedbox-bl"><div class="ui-roundedbox-corner ui-roundedbox-br"><div class="ui-roundedbox-content">
+<div class="inner-content" id="friends">
+<div id="stream">
+    <div id="finder_finder" style="display: block;">
+    <!--{if ($ptuname)}-->
+         <div class="title">
+         <table border="0" width="100%">
+            <tr>
+                <td rowspan="2" width="60px"><a href="{$webaddr}/op/viewalbum/$alid"><img src="$face_photo" onerror="src='{$webaddr}/images/nophoto.jpg'" style="width:48px;border:1px #cccccc solid;padding:1px;display:block;"></a></td>
+                <td><a href="{$webaddr}/op/photo/u.$ptuid">{$ptuname}的相册</a></td>
+                <td align="right"  width="80px">
+                <!--{if ($ptuid==$my[user_id])}-->
+                <a href="{$webaddr}/op/viewphoto/$ptid&act=fengmian" style="float:right" class="bl" style="font-size:10px">设为封面</a>
+                <!--{/if}-->
+                </td>
+            </tr>
+            <tr>
+                <td>标题：{$album_name} <!--{if ($ptuid==$my[user_id])}--><a href="{$webaddr}/op/viewalbum/$alid&act=edit">[修改]</a><!--{/if}--></td>
+                <td align="right" width="80px">
+                <!--{if ($ptuid==$my[user_id])}-->
+                <a href="{$webaddr}/op/viewalbum/$alid&act=upload" style="float:right" class="bh">上传相片</a>
+                <!--{/if}-->
+                </td>
+            </tr>
+         </table>
+         </div>
+
+         <!--{if ($pt_uisclose==1 && $isfriend['allfri']!=1 && $pt_uid!=$my[user_id] && $my[isadmin]!=1)}-->
+             <div style="margin:1.5em 0;padding:25px 20px 20px 120px;border:1px dashed #fc0;background:#fffbcc">
+             <img src="{$webaddr}/images/$temp_dir/lock.gif">  <b>只有和此用户互相关注才能查看信息。</b>
+             </div>
+         <!--{else}-->
+             <!--{if ($act=="remove" && $ptuid==$my[user_id])}-->
+             <div id="finder_searchnick" class="finder_block">
+                 <form action="{$webaddr}/op/viewphoto/$ptid" method="POST" enctype="multipart/form-data">
+                 选择相册：<select name="toalbum" >$albumlist</select>&nbsp;&nbsp;&nbsp;&nbsp;
+                 <input type="hidden" name="action" value="remove"/>
+                 <input class="formbutton" type="submit" value="转移"/>
+                 <input class="formbutton" type="button" value="返回" onclick="location.href='{$webaddr}/op/viewphoto/$ptid'"/>
+                 </form>
+             </div>
+             <!--{elseif ($act=="rename" && $ptuid==$my[user_id])}-->
+             <div id="finder_searchnick" class="finder_block">
+                 <form action="{$webaddr}/op/viewphoto/$ptid" method="POST">
+                 新相片名：<input type="text" name="newpttitle" class="input_text" style="width:130px"/>
+                 <input type="hidden" name="action" value="rename"/>
+                 <input class="formbutton" type="submit" value="修改"/>
+                 <input class="formbutton" type="button" value="返回" onclick="location.href='{$webaddr}/op/viewphoto/$ptid'"/>
+                 <span class="setgray">最多20个字符或10个汉字</span>
+                 </form>
+             </div>
+             <!--{else}-->
+                <p class="actions">
+                <!--{if ($ptuid==$my[user_id])}-->
+                <a href="{$webaddr}/op/viewphoto/$ptid&act=remove" class="bh" style="float:right">移动图片</a>
+                <a href="{$webaddr}/op/viewphoto/$ptid&act=rename" class="bh" style="float:right">相片改名</a>
+                <!--{else}-->
+                <a href="{$webaddr}/home?to={$ptuname}&status_id=$ptid&status_type=photo" class="bh" style="float:right">回复该照片</a>
+                <!--{/if}-->
+                <font size=2>标题：<b>{$pt_title}</b>&nbsp;&nbsp;&nbsp;&nbsp;上传时间：$uploadtime</font>
+                </p><br/>
+                <p style="float:right;padding-right:10px;">
+                <!--{if (count($show)==2)}-->
+                    <a href="{$webaddr}/op/viewphoto/$show[0][id]">上一张 "{$show[0][name]}"</a> | <a href="{$webaddr}/op/viewphoto/$show[1][id]">下一张 "{$show[1][name]}"</a>
+                <!--{elseif (count($show)==1)}-->
+                    <!--{if ($show[0][id]<$ptid)}-->
+                        <a href="{$webaddr}/op/viewphoto/$show[0][id]">上一张 "{$show[0][name]}"</a>
+                    <!--{else}-->
+                       <a href="{$webaddr}/op/viewphoto/$show[0][id]">下一张 "{$show[0][name]}"</a>
+                    <!--{/if}-->
+                <!--{/if}-->
+                </p><br/>
+                <p class="actions"><center><img src="{$webaddr}/attachments/photo/user_{$ptuid}/{$pt_name}" id="imgshow" style="border:1px #cccccc solid;padding:1px;width: expression(this.width > 700 ? '700px': true); max-width: 700px;"></center></p><br/>     
+                <p style="float:right;padding-right:10px">
+                <!--{if (count($show)==2)}-->
+                    <a href="{$webaddr}/op/viewphoto/$show[0][id]">上一张 "{$show[0][name]}"</a> | <a href="{$webaddr}/op/viewphoto/$show[1][id]">下一张 "{$show[1][name]}"</a>
+                <!--{elseif (count($show)==1)}-->
+                    <!--{if ($show[0][id]<$ptid)}-->
+                        <a href="{$webaddr}/op/viewphoto/$show[0][id]">上一张 "{$show[0][name]}"</a>
+                    <!--{else}-->
+                       <a href="{$webaddr}/op/viewphoto/$show[0][id]">下一张 "{$show[0][name]}"</a>
+                    <!--{/if}-->
+                <!--{/if}-->
+                </p>
+             <!--{/if}-->
+         <!--{/if}-->
+    <!--{else}-->
+        <div style="margin:50px;text-align:center"><img src="{$webaddr}/images/$temp_dir/lock.gif"> 很抱歉，此相片不能显示，可能不存在或已被用户删除！</div>
+    <!--{/if}-->
+    </div>
+</div>
+</div>
+</div></div></div></div></div></div>
+{template "foot.htm"}

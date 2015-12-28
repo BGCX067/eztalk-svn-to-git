@@ -1,0 +1,100 @@
+{template "header.htm"}
+<table id="columns">
+<tr>
+<td id="main">
+<form method="post" action="{$webaddr}/op/topic" name="message" onSubmit="return isfun()" onkeydown="if(event.ctrlKey&&event.keyCode==13)this.submit()">
+    <h3>专题：<font color="red"><b>[{$tpbody}]</b></font>&nbsp;&nbsp;&nbsp;&nbsp;<span class="headgray">Ctrl+Enter可直接发表</span><span class="headgray" style="margin-left:10px">(<span id="nums">0</span>/140)</span></h3>
+    <table class="top5">
+    <tr>
+    <td><img src="{$my[user_head]}" width="65px" height="65px" alt="{$my[user_name]}" class="imgborder"></td>
+    <td>&nbsp;</td>
+    <td><!--{if ($toname)}-->
+        @{$toname} <br/><textarea name="content" id="contentbox" style="width:300px;height:40px"></textarea>
+        <!--{else}-->
+        <textarea name="content" id="contentbox" style="width:300px;height:60px"></textarea>
+        <!--{/if}--></td>
+    <td>&nbsp;&nbsp;</td>
+    <td><input type="hidden" name="action" value="sendtopic" />
+        <input type="hidden" name="toid" value="{$toid}" />
+        <input type="hidden" name="status_id" value="{$status_id}" />
+        <input type="hidden" name="status_type" value="{$statustype}" />
+        <input type="hidden" name="topid" value="{$tid}" />
+        <input type="submit" class="formbutton" title="按Ctrl+Enter键发送消息" value="发送"/></td>
+    </tr>
+    </table>
+</form>
+
+<div class="top10">
+    <div class="dk_list">
+    <div id="stream" class="message">
+        <ol class="wa">
+        <!--{if ($i>0)}-->
+        <!--{loop $topic $key $val}-->
+        <li>
+        <a href="{$webaddr}/home/u.{$val[topic_uid]}" title="{$val[topic_uname]}" class="avatar"><img src="{$val[topic_uhead]}" alt="{$val[topic_uname]}" /></a>
+        <a href="{$webaddr}/home/u.{$val[topic_uid]}" class="author">{$val[topic_uname]}</a>
+        <span class="content">{$val[topic_body].$val[content]}</span><br/>
+        <span class="stamp">
+            <a href="{$webaddr}/op/view&id={$val[contentid]}">{$val[posttime]}</a>
+            <span class="method">通过{$val[type]} 
+            <!--{if ($val[statusid])}-->
+                <!--{if ($val[status_type]=="talk")}-->
+                    <a href="{$webaddr}/op/view/{$val[statusid]}">给{$val[status_uname]}的回复</a>
+                <!--{elseif ($val[status_type]=="photo")}-->
+                    <a href="{$webaddr}/op/viewphoto/{$val[statusid]}">给{$val[status_uname]}相片的回复</a>
+                <!--{/if}-->
+            <!--{/if}-->
+            </span>
+        </span> 
+        <!--{if ($my[user_id])}-->
+        <span class="op">
+        <a class="share" href="javascript:void(0)" onclick="send_f('{$val[contentid]}')" title="添加到我的收藏">收藏</a>
+        <!--{if ($val[topic_uid]!=$my[user_id])}-->
+        <a class="reply" href="{$webaddr}/op/topic&tid=$tid&to={$val[topic_uname]}&status_id={$val[contentid]}" title="回复{$val[topic_uname]}">回复</a>
+        <!--{/if}-->
+        <!--{if ($my[user_id]==$val[topic_uid])}-->
+        <a class="delete" href="##" onclick="delmsg('{$webaddr}/home/home&act=del&cid={$val[contentid]}','确实要删除此条TALK吗?',this.parentNode.parentNode)">删除</a>
+        <!--{/if}-->
+        </span>
+        <!--{/if}-->
+        </li>
+        <!--{/loop}-->
+        <!--{else}-->
+        <li>这里什么信息都没有</li>
+        <!--{/if}-->
+        </ol>		
+    </div>
+    </div>
+</div>
+<!--{if ($pg_num>1)}-->
+<ul class="paginator">
+    <!--{if ($pp>0)}-->
+        <li><a href='{$webaddr}/op/topic/$tid/p.$pp' title='上一页' >上一页</a></li>
+    <!--{/if}-->
+    <!--{if ($np<=$pg_num)}-->
+        <li><a href='{$webaddr}/op/topic/$tid/p.$np' title='下一页' >下一页</a></li>
+    <!--{/if}-->
+</ul>
+<!--{/if}-->
+</td>
+<td id="sidebar">
+    <div class="sect first-sect">
+        <h2>专 题</h2>
+        $topiclist
+    </div>
+
+    <div class="sect">
+        <h2>分 享</h2>
+        <form action="{$webaddr}/op/share" method="post">
+        <p>分享网址、视频、音乐、Flash、图片</p>
+        <p><input type="text" name="link" id="link" class="input_text" value="http://" onfocus="javascript:if('http://'==this.value)this.value='';" onblur="javascript:if(''==this.value)this.value='http://'" style="width:190px;" /></p>
+        <p>描述(最多250个字符,可留空):</p>
+        <p><textarea name="describe" style="width:190px;" rows="3"></textarea></p>
+        <p><input name="action" value="share" type="hidden">
+        <input tabindex="4" type="submit" class="formbutton" value="分享" onclick="javascript:var l=document.getElementById('link').value;if(l.substring(0,7)!='http://' || l=='http://'){alert('您输入的网址不合法！');return false;}" /></p>
+        </form>
+    </div>
+</td>
+</tr>
+</table>
+{template "foot.htm"}

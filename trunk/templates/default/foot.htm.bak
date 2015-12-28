@@ -1,0 +1,9 @@
+<!-- EasyTalk,迷你博客系统，尊重作者劳动，请不要删除我们的版权 -->
+<!--{if ($my[user_id])}--><!--{if ($p2)}--><div class="ads2"><!--{loop $p2 $key $val}--><div style="margin-top:5px">$val</div><!--{/loop}--></div><!--{/if}--><!--{/if}-->
+<div id="footer" class="ui-roundedbox"><div class="ui-roundedbox-corner ui-roundedbox-tl"><div class="ui-roundedbox-corner ui-roundedbox-tr"><div class="ui-roundedbox-corner ui-roundedbox-bl"><div class="ui-roundedbox-corner ui-roundedbox-br"><div class="ui-roundedbox-content">
+<p>&copy;&nbsp;<span title="Processed in {$loadtime} second(s), {$sqlnum} queries.">2007-2009</span>&nbsp;<a href="http://www.9italk.com" target="_blank">EasyTalk</a>&nbsp;{$version}&nbsp;&nbsp;<a href="http://www.miibeian.gov.cn" target="_blank" id="miibeian">{$webm}</a></p>
+</div></div></div></div></div></div></div></div>
+<script LANGUAGE="JavaScript">
+if ($("tip")) {var _s=3;var TIP=$("tip");function doTime() {_s --;if (_s<=0) {if (TIP.className=="tip") {var anim = new YAHOO.util.Anim(TIP, {opacity: {to:"0"}});anim.animate();anim.onComplete.subscribe(function() {TIP.parentNode.removeChild(TIP);});}}setTimeout(doTime, 1000);}doTime();}
+</script>
+</html>

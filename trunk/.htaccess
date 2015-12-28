@@ -1,0 +1,43 @@
+RewriteEngine On
+RewriteBase /et
+
+## ET
+RewriteRule ^([0-9]+)$ index.php?uid=$1
+RewriteRule ^index$ index.php
+RewriteRule ^browse/p.(.+)$ browse.php?page=$1
+RewriteRule ^browse$ browse.php
+RewriteRule ^home/(.+)/u.(.+)/p.(.+)$ home.php?hm=$1&uid=$2&page=$3
+RewriteRule ^home/(.+)/u.(.+)$ home.php?hm=$1&uid=$2
+RewriteRule ^home/u.(.+)$ home.php?uid=$1
+RewriteRule ^home/(.+)$ home.php?hm=$1
+RewriteRule ^home$ home.php
+RewriteRule ^op/topic/(.+)/p.(.+)$ op.php?op=topic&tid=$1&page=$2
+RewriteRule ^op/topic/(.+)$ op.php?op=topic&tid=$1
+RewriteRule ^op/friends/u.(.+)/p.(.+)$ op.php?op=friends&uid=$1&page=$2
+RewriteRule ^op/friends/u.(.+)$ op.php?op=friends&uid=$1
+RewriteRule ^op/photo/u.(.+)/p.(.+)$ op.php?op=photo&uid=$1&page=$2
+RewriteRule ^op/photo/u.(.+)$ op.php?op=photo&uid=$1
+RewriteRule ^op/viewphoto/(.+)$ op.php?op=viewphoto&ptid=$1
+RewriteRule ^op/viewalbum/(.+)/p.(.+)$ op.php?op=viewalbum&alid=$1&page=$2
+RewriteRule ^op/viewalbum/(.+)$ op.php?op=viewalbum&alid=$1
+RewriteRule ^op/share/u.(.+)$ op.php?op=share&uid=$1
+RewriteRule ^op/sharereply/(.+)/p.(.+)$ op.php?op=sharereply&sid=$1&page=$2
+RewriteRule ^op/sharereply/(.+)$ op.php?op=sharereply&sid=$1
+RewriteRule ^op/sendmsg/u.(.+)$ op.php?op=sendmsg&uid=$1
+RewriteRule ^op/view/(.+)$ op.php?op=view&id=$1
+RewriteRule ^op/(.+)$ op.php?op=$1
+RewriteRule ^op$ op.php
+RewriteRule ^badge/picsign/(.+)\.jpg$ badge/picsign.php?uid=$1
+RewriteRule ^plugin$ plugin.php
+
+## API
+RewriteRule ^api/statuses/destroy$ api/statuses/destroy.php
+RewriteRule ^api/statuses/update$  api/statuses/update.php
+RewriteRule ^api/statuses/show/([0-9]+).(xml|json)$ api/statuses/show.php?id=$1&ext=$2
+RewriteRule ^api/statuses/public_timeline.(rss|xml|json)$ api/statuses/public_timeline.php?ext=$1&%{QUERY_STRING}
+RewriteRule ^api/statuses/user_timeline.(rss|xml|json)$ api/statuses/user_timeline.php?ext=$1&%{QUERY_STRING}
+RewriteRule ^api/statuses/follows_timeline.(rss|xml|json)$ api/statuses/follows_timeline.php?ext=$1&%{QUERY_STRING}
+RewriteRule ^api/users/followers.(xml|json)$ api/users/followers.php?ext=$1&%{QUERY_STRING}
+RewriteRule ^api/users/friends.(xml|json)$ api/users/friends.php?ext=$1&%{QUERY_STRING}
+RewriteRule ^api/users/show.(xml|json)$ api/users/show.php?ext=$1&%{QUERY_STRING}
+RewriteRule ^api/search/public_timeline.(xml|json)$ api/search/public_timeline.php?ext=$1&%{QUERY_STRING}

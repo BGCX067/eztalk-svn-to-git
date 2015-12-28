@@ -1,0 +1,50 @@
+<div id="stream" class="message top10">
+<!--{if ($i>0)}-->
+<ol id="talkinsert">
+    <!--{loop $home $key $val}-->
+    <li class="unlight">
+    <span class="content">{$val[topic_body].$val[content]}</span><br/>
+    <span class="stamp">
+        <a href="{$webaddr}/op/view/{$val[contentid]}">{$val[posttime]}</a>
+        <span class="method">通过{$val[type]} 
+        <!--{if ($val[statusid])}-->
+            <!--{if ($val[status_type]=="talk")}-->
+                <a href="{$webaddr}/op/view/{$val[statusid]}">给{$val[status_uname]}的回复</a>
+            <!--{elseif ($val[status_type]=="photo")}-->
+                <a href="{$webaddr}/op/viewphoto/{$val[statusid]}">给{$val[status_uname]}相片的回复</a>
+            <!--{/if}-->
+        <!--{/if}-->
+        </span>
+    </span>
+    <!--{if ($my[user_id])}-->
+    <span class="op">
+        <a class="share" title="添加到我的收藏" href="javascript:void(0)" onclick="send_f('{$val[contentid]}')">收藏</a>
+        <!--{if ($val[home_uid]!=$my[user_id])}-->
+        <a class="reply" title="回复{$val[home_uname]}" href="{$webaddr}/home?to={$val[home_uname]}&status_id={$val[contentid]}">回复</a>
+        <!--{/if}-->
+        <!--{if ($my[user_id]==$user[user_id])}-->
+        <a class="delete" href="##" onclick="delmsg('{$webaddr}/home/home&act=del&cid={$val[contentid]}','确实要删除此条TALK吗?',this.parentNode.parentNode)">删除</a>
+        <!--{/if}-->
+    </span>
+    <!--{/if}-->
+    </li>
+    <!--{/loop}-->
+<!--{else}-->
+<ol class="wa">
+    <li class="unlight">这里什么信息都没有</li>
+<!--{/if}-->
+</ol>
+</div>
+
+<!--{if ($pg_num>1)}-->
+<ul class="paginator">
+    <!--{if ($pp>0)}-->
+        <li><a href='#' onclick="showhome('home','{$user[user_id]}','{$pp}')" title='上一页' >上一页</a></li>
+    <!--{/if}-->
+    <!--{if ($np<=$pg_num)}-->
+        <li><a href='#' onclick="showhome('home','{$user[user_id]}','{$np}')" title='下一页' >下一页</a></li>
+    <!--{/if}-->
+</ul>
+<!--{/if}-->
+
+<input type="hidden" value="{$total}" id="hmhome">

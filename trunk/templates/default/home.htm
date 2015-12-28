@@ -1,0 +1,132 @@
+{template "header.htm"}
+<script type="text/javascript">var user_id={$user[user_id]}</script>
+
+<table id="columns">
+<tr>
+<td id="main">
+{template "head.htm"}
+<!--{if ($user[isclose]==1 && $isfriend['allfri']!=1 && $user[user_id]!=$my[user_id] && $my[isadmin]!=1)}-->
+    <div style="margin:1.5em 0;padding:25px 20px 20px 120px;border:1px dashed #fc0;background:#fffbcc">
+    <img src="{$webaddr}/images/$temp_dir/lock.gif">  <b>只有和此用户互相关注才能查看信息。</b>
+    </div>
+<!--{else}-->
+    <div id="homecontainer"><img src="$webaddr/images/spinner.gif"> 数据载入中...</div>
+<!--{/if}-->
+</td>
+<td id="sidebar">
+    <!--{if (!$my[user_id])}-->
+        <div class="sect first-sect">
+            <h2>登录</h2>
+            <form method="post" action="{$webaddr}/op/login" id="login">
+            <p>
+                <label class="label_input" for="mailadres">Email / Uid：</label>
+                <input tabindex="1" type="text" id="mailadres" name="mailadres" class="input_text" value="" />
+            </p>
+            <p>
+                <label class="label_input" for="password">登录密码：</label>
+                <input tabindex="2" type="password" id="password" name="password" class="input_text" value="" maxlength="32" />
+            </p>
+            <p>
+                <label class="label_check" for="rememberMe">
+                <input tabindex="3" type="checkbox" name="rememberMe" id="rememberMe" value="on" />&nbsp;&nbsp;下次自动登录
+                </label>
+            </p>
+            <p class="act">
+                <a href="op/reset" id="forgot">忘记密码了？</a>
+                <input type="hidden" name="action" value="login" />
+                <input tabindex="4" type="submit" class="formbutton" value="登录" />
+            </p>
+            </form>
+        </div>
+        <div class="sect">
+    <!--{else}-->
+        <!--{if ($my[user_id])}--><!--{if ($p3)}--><div class="ads3"><!--{loop $p3 $key $val}--><div style="margin-bottom:5px">$val</div><!--{/loop}--></div><!--{/if}--><!--{/if}-->
+        <div class="sect first-sect">
+    <!--{/if}-->
+        <ul>
+        <!--{if ($user[auth_email]==1)}--><a href="{$webaddr}/op/mailauth" title="邮箱已验证"><img src="{$webaddr}/images/{$temp_dir}/mail.gif" /></a>&nbsp;&nbsp;<!--{/if}-->
+        <!--{if (!$user[msnyz] && $user[msn])}--><a href="{$webaddr}/op/im" title="MSN已绑定"><img src="{$webaddr}/images/{$temp_dir}/msn.gif" /></a>&nbsp;&nbsp;<!--{/if}-->
+        <!--{if ($user[musicaddr])}--><p><li>
+        <object id="audioplayer_32" height="17" width="200" type="application/x-shockwave-flash" data="$webaddr/images/player.swf">
+        <param name="movie" value="$webaddr/images/player.swf"/>
+        <param name="FlashVars" value="autostart=no&bg=0xCDDFF3&leftbg=0x357DCE&lefticon=0xF2F2F2&rightbg=0xF06A51&rightbghover=0xAF2910&righticon=0xF2F2F2&righticonhover=0xFFFFFF&text=0x357DCE&slider=0x357DCE&track=0xFFFFFF&border=0xFFFFFF&loader=0xAF2910&soundFile=$user[musicaddr]"/>
+        <param name="quality" value="high"/>
+        <param name="menu" value="false"/>
+        <!--{if ($user[theme_sidebar])}--><param name="bgcolor" value="$user[theme_sidebar]"/><!--{else}--><param name="bgcolor" value="#e2f2da"/><!--{/if}-->
+        </object>
+        </li></p><!--{/if}-->
+        <p>昵称：<b>{$user[user_name]}</b></p>
+        <p>身份：第 {$user[user_id]} 号叨客</p>
+        <!--{if ($user[user_gender])}--><p>性别：{$user[user_gender]}</p><!--{/if}-->
+        <!--{if ($user[home_city])}--><p><li>家乡：{$user[home_city]}</li></p><!--{/if}-->
+        <!--{if ($user[live_city])}--><p><li>居住：{$user[live_city]}</li></p><!--{/if}-->
+        <!--{if ($user[birthday])}--><p><li>年龄：{$user[old]}岁</li></p><!--{/if}-->
+        <!--{if ($user[user_info])}--><p><li>签名：{echo ubb($user[user_info])}</li></p><!--{/if}-->
+        </ul>
+    </div>
+
+    <div class="stabs">
+    <ul id="homestabs">
+    <!--{if ($my[user_id]==$user[user_id])}-->
+        <li id="stab_home"><a href="javascript:void(0);" onclick="showhome('home','{$user[user_id]}','1');">我的唠叨(<span id="homenum">{$user[msg_num]}</span>)</a></li>
+        <li id="stab_favorite"><a href="javascript:void(0);" onclick="showhome('favorite','{$user[user_id]}','1')">我的收藏(<span id="favoritenum">{$user[fav_num]}</span>)</a></li>
+        <li id="stab_privatemsg"><a href="javascript:void(0);" onclick="showhome('privatemsg','{$user[user_id]}','1','my')">私信(<span id="privatemsgnum">{$user['ly']}</span>)</a></li>
+        <li id="stab_friend"><a href="javascript:void(0);" onclick="showhome('friend','{$user[user_id]}','1')">关注动态</a></li>
+        <li id="stab_replies"><a href="javascript:void(0);" onclick="showhome('replies','{$user[user_id]}','1')">@回复我的</a></li>
+    <!--{else}-->
+        <!--{if ($user[isclose]==1 && $isfriend['allfri']!=1 && $my[isadmin]!=1)}-->
+        <!--{else}-->
+            <li id="stab_home"><a href="javascript:void(0);" onclick="showhome('home','{$user[user_id]}','1')">TA的唠叨({$user[msg_num]})</a></li>
+            <li id="stab_favorite"><a href="javascript:void(0);" onclick="showhome('favorite','{$user[user_id]}','1')">TA的收藏({$user[fav_num]})</a></li>
+            <li id="stab_friend"><a href="javascript:void(0);" onclick="showhome('friend','{$user[user_id]}','1')">关注动态</a></li>
+        <!--{/if}-->
+    <!--{/if}-->
+    </ul>
+    </div>
+
+    <ul id="user_stats">
+        <li><a href="{$webaddr}/op/friends/u.{$user[user_id]}&act=allfri"><span class="count">{$user[friend_num]}</span><span class="label">好友</span></a></li>
+        <li><a href="{$webaddr}/op/photo/u.{$user[user_id]}"><span class="count">{$user[photo_num]}</span><span class="label">相片</span></a></li>
+        <li><a href="{$webaddr}/op/share/u.{$user[user_id]}"><span class="count">{$user[share_num]}</span><span class="label">分享</span></a></li>
+    </ul>
+
+    <div class="sect">
+        <h2>专 题</h2>
+        $topiclist
+    </div>
+
+    <!--{if ($my[user_id] && $my[user_id]==$user[user_id])}-->
+    <div class="sect">
+        <h2>分 享</h2>
+        <form action="{$webaddr}/op/share" method="post">
+        <p>分享网址、视频、音乐、Flash、图片</p>
+        <p><input type="text" name="link" id="link" class="input_text" value="http://" onfocus="javascript:if('http://'==this.value)this.value='';" onblur="javascript:if(''==this.value)this.value='http://'" style="width:190px;" /></p>
+        <p>描述(最多250个字符,可留空)</p>
+        <p><textarea name="describe" style="width:190px;" rows="3"></textarea></p>
+        <p><input name="action" value="share" type="hidden">
+        <input tabindex="4" type="submit" class="formbutton" value="分享" onclick="javascript:var l=document.getElementById('link').value;if(l.substring(0,7)!='http://' || l=='http://'){alert('您输入的网址不合法！');return false;}" /></p>
+        </form>
+    </div>
+    <!--{/if}-->
+
+    <!--{if ($user[friend_num]>0)}-->
+    <div class="sect">
+        <h2>{$user[user_name]}的好友</h2>
+        <ul class="alistsmall">
+        <!--{loop $myfri $key $val}-->
+        <li><a title="{$val[usname]}" href="{$webaddr}/home/u.{$val[usid]}"><img alt="{$val[usname]}" src="{$val[ushead]}"/></a></li>
+        <!--{/loop}-->
+        </ul>
+        <a class="more" href="$webaddr/op/friends/u.{$user[user_id]}&act=allfri">&#187; 更多</a>
+    </div>
+    <!--{/if}-->
+
+    <div class="sect">
+        <p class="rssfeed"><a href="{$webaddr}/api/statuses/user_timeline.rss?id={$user[user_id]}" target="_blank" title="订阅{$user[user_name]}的消息">订阅{$user[user_name]}的消息</a></p>
+    </div>
+
+    <!--{if ($my[user_id])}--><!--{if ($p4)}--><div class="ads4"><!--{loop $p4 $key $val}--><div style="margin-top:5px">$val</div><!--{/loop}--></div><!--{/if}--><!--{/if}-->
+</td>
+</tr>
+</table>
+{template "foot.htm"}

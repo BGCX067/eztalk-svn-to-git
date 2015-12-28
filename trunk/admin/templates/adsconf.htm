@@ -1,0 +1,67 @@
+{template "header.htm"}
+
+<script type="text/JavaScript">
+function jsop(url,mes){
+    var mymes;
+    mymes=confirm(mes);
+    if(mymes==true){
+        window.location=url;
+    }
+}
+</script>
+
+<div class="mainarea">
+<div class="maininner">
+<div class="bdrcontent">
+<div class="title"><h3>广告管理</h3></div>
+<div class="main-wraper" style="margin-top:10px;margin-bottom:10px">
+<table>
+<tr>
+    <th width="10%">ID</td>
+    <th width="55%">广告内容</td>
+    <th width="15%">位置</td>
+    <th width="20%">操作</td>
+</tr>
+<!--{loop $ads $key $val}-->
+<form action="adsconf.php" method="post" id="{$val[ad_id]}">
+    <tr>   
+        <td>{$val[ad_id]}</td>
+        <td><input type="text" name="editadsbody" value='{$val[adbody]}' style="width:430px"></td>
+        <td><select name="editposition">
+            <option <!--{if ($val[position]==0)}-->selected="selected"<!--{/if}--> value="0">不显示</option>
+            <option <!--{if ($val[position]==1)}-->selected="selected"<!--{/if}--> value="1">页头通栏</option>
+            <option <!--{if ($val[position]==2)}-->selected="selected"<!--{/if}--> value="2">页尾通栏</option>
+            <option <!--{if ($val[position]==3)}-->selected="selected"<!--{/if}--> value="3">空间边栏（上）</option>
+            <option <!--{if ($val[position]==4)}-->selected="selected"<!--{/if}--> value="4">空间边栏（下）</option>
+            </select>
+        </td>
+        <td>
+        <input type="hidden" name="action" value="edit"><input type="hidden" name="aid" value="{$val[ad_id]}">
+        <input type="submit" value="编辑">
+        <input type="button" onclick="jsop('adsconf.php?act=del&adid={$val[ad_id]}','确认删除此广告？')" value="删除">
+        </td>
+    </tr>
+</form>
+<!--{/loop}-->
+<form action="adsconf.php" method="post">
+    <tr>
+        <td>添加：</td>
+        <td><input type="text" name="addbody" value='' style="width:430px"></td>
+        <td><select name="position">
+            <option value="0">不显示</option>
+            <option value="1">页头通栏</option>
+            <option value="2">页尾通栏</option>
+            <option value="3">空间边栏（上）</option>
+            <option value="4">空间边栏（下）</option>
+            </select></td>
+        <td><input type="hidden" name="action" value="addads"><input type="submit" value="添 加"></td>
+    </tr>
+</form>
+</table>
+</div>
+</div>
+<br />
+</div>
+</div>
+
+{template "foot.htm"}

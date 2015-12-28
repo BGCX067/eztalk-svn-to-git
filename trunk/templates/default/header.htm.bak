@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta name="keywords" content="{$seokey}" />
+<meta name="description" content="{$description}" />
+<title><!--{if ($web_name3)}-->{$web_name3} - <!--{/if}-->{$webn1} - {$webn2}</title>
+<link rel="shortcut icon" href="{$webaddr}/images/favicon.ico" />
+<script type="text/javascript">var webaddr="$webaddr";var backto="$backto"</script>
+<script type="text/javascript" src="{$webaddr}/include/javascript/yui/utilities/utilities.js"></script>
+<script type="text/javascript" src="{$webaddr}/include/javascript/yui/cookie/cookie-min.js"></script>
+<script type="text/javascript" src="{$webaddr}/include/javascript/easytalk.js"></script>
+<script type="text/javascript" src="{$webaddr}/include/javascript/ajaxmenu.js"></script>
+<link rel="stylesheet" type="text/css" href="{$webaddr}/templates/{$temp_dir}/cache/style.css" />
+<style type="text/css">
+<!--{if (($my[user_id] && $user[user_id]==$my[user_id]) || (!$user[user_id] && $my[user_id]))}-->
+    body {<!--{if ($my[theme_bgcolor])}-->background:$my[theme_bgcolor]<!--{/if}-->
+    <!--{if ($my[theme_bgurl])}-->
+        <!--{if ($my[theme_pictype]=="repeat")}-->
+             url({$webaddr}/{$my[theme_bgurl]}/themebg.jpg) repeat left top
+        <!--{elseif ($my[theme_pictype]=="center")}-->
+            url({$webaddr}/{$my[theme_bgurl]}/themebg.jpg) no-repeat center top;background-attachment: fixed
+        <!--{elseif ($my[theme_pictype]=="left")}-->
+            url({$webaddr}/{$my[theme_bgurl]}/themebg.jpg) no-repeat left top; background-attachment: fixed
+        <!--{/if}-->
+    <!--{/if}-->
+    <!--{if ($my[theme_text])}-->;color:$my[theme_text]<!--{/if}-->}
+    <!--{if ($my[theme_link])}-->
+        a {color:$my[theme_link]}
+        a:hover {background-color:$my[theme_link];color:#fff;text-decoration:none;}
+        .light .stamp a { color:$my[theme_link]; border-color:$my[theme_link];}
+        #sidebar a:hover {color:$my[theme_link]; border-color:$my[theme_link];}
+        a:hover .label { border-bottom:1px solid $my[theme_link];}
+    <!--{/if}-->
+    <!--{if ($my[theme_sidebar])}-->#sidebar {background:$my[theme_sidebar]}<!--{/if}-->
+    <!--{if ($my[theme_sidebox])}-->#sidebar {border-color:$my[theme_sidebox]}<!--{/if}-->
+<!--{elseif ($user[user_id])}-->
+    body {<!--{if ($user[theme_bgcolor])}-->background:$user[theme_bgcolor]<!--{/if}-->
+    <!--{if ($user[theme_bgurl])}-->
+        <!--{if ($user[theme_pictype]=="repeat")}-->
+             url({$webaddr}/{$user[theme_bgurl]}/themebg.jpg) repeat left top
+        <!--{elseif ($user[theme_pictype]=="center")}-->
+            url({$webaddr}/{$user[theme_bgurl]}/themebg.jpg) no-repeat center top;background-attachment: fixed
+        <!--{elseif ($user[theme_pictype]=="left")}--> 
+            url({$webaddr}/{$user[theme_bgurl]}/themebg.jpg) no-repeat left top; background-attachment: fixed
+        <!--{/if}-->
+    <!--{/if}-->
+    <!--{if ($user[theme_text])}-->;color:$user[theme_text]<!--{/if}-->}
+    <!--{if ($user[theme_link])}-->
+        a {color:$user[theme_link]}
+        a:hover {background-color:$user[theme_link];color:#fff;text-decoration:none;}
+        .light .stamp a { color:$user[theme_link]; border-color:$user[theme_link];}
+        #sidebar a:hover {color:$user[theme_link]; border-color:$user[theme_link];}
+        a:hover .label { border-bottom:1px solid $user[theme_link];}
+    <!--{/if}-->
+    <!--{if ($user[theme_sidebar])}-->#sidebar {background:$user[theme_sidebar]}<!--{/if}-->
+    <!--{if ($user[theme_sidebox])}-->#sidebar {border-color:$user[theme_sidebox]}<!--{/if}-->
+<!--{/if}-->
+</style>
+</head>
+          
+<body>
+<!--{if ($my[user_id])}-->
+<!--[if lte IE 6]>
+<style type="text/css">
+html, body { height: 100%; overflow: hidden; }
+#maincontainer { height: 100%; overflow: auto; position: relative; margin-bottom:30px}
+#toolbar { position: absolute; width: 94%; }
+#toolbarmin { position: absolute; width: 123px; }
+</style>
+<![endif]-->
+<div id="toolbar" style="display:none;opacity:0;">
+<div class="toolbarShow"> 
+    <div class="userQLink">
+        <a href="javascript:;" onclick="bottomtomin();" style="background: url({$webaddr}/images/collapsed_no.gif) no-repeat 10px 8px">收起</a>
+        <a href="$webaddr/wap/index.php" target="_blank" style="background: url({$webaddr}/images/$temp_dir/api.gif) no-repeat 10px 6px;">WAP</a>
+        <a href="{$webaddr}/op/faq" target="_blank" style="background: url({$webaddr}/images/$temp_dir/help.gif) no-repeat 10px 6px;">帮助</a>
+        <span style="height: 22px;padding-left:20px;"></span>
+    </div>
+    <div class="userStatus">
+        <a href="{$webaddr}/op/friends&act=allfri" style="background: url({$webaddr}/images/$temp_dir/api.gif) no-repeat 10px 6px;">我的好友</a>
+        <a href="{$webaddr}/op/share/u.$my[user_id]" style="background: url({$webaddr}/images/$temp_dir/api.gif) no-repeat 10px 6px;">我的分享</a>
+        <a href="{$webaddr}/op/photo" style="background: url({$webaddr}/images/$temp_dir/api.gif) no-repeat 10px 6px;">我的相册</a>
+        <a onclick="window.scrollTo(0,0);" href="javascript:;" style="background: url({$webaddr}/images/$temp_dir/top.gif) no-repeat 12px 5px;">TOP</a>
+    </div>
+</div>
+</div>
+<div id="toolbarmin" style="display:none;opacity:0;">
+<div class="toolbarShowmin"> 
+    <div class="userStatusmin">
+        <a href="javascript:;" onclick="bottomtomax();" style="background: url({$webaddr}/images/collapsed_yes.gif) no-repeat 10px 8px">展开</a>
+        <a onclick="window.scrollTo(0,0);" href="javascript:;" style="background: url({$webaddr}/images/$temp_dir/top.gif) no-repeat 12px 5px;border-left: #ccc 1px solid;">TOP</a>
+    </div>
+</div>
+</div>
+<!--{/if}-->
+
+<div id="maincontainer">
+<div id="container" class="newlook">
+<div id="header">
+    <h1><a href="{$webaddr}/index"><img src="{$webaddr}/images/{$temp_dir}/{$var_logo}" id="headerlogo" alt="EasyTalk"/></a></h1>
+    <div id="navigation" class="ui-roundedbox">
+    <div class="ui-roundedbox-corner ui-roundedbox-tl"><div class="ui-roundedbox-corner ui-roundedbox-tr"><div class="ui-roundedbox-corner ui-roundedbox-bl"><div class="ui-roundedbox-corner ui-roundedbox-br">
+    <div class="ui-roundedbox-content">
+    <ul>
+    <!--{if ($my[user_id])}-->
+    <li><a href="{$webaddr}/home">我的叨客</a></li>
+    <li><a href="{$webaddr}/browse">随便看看</a></li>
+    <li><a href="{$webaddr}/op/share">分享</a></li>
+    <li><a href="{$webaddr}/op/finder">找朋友</a></li>
+    <li><a href="{$webaddr}/op/setting">设置</a></li>
+    <!--{if ($pluginlist)}-->
+    <li><a href="#" id="plugin" onmouseover="showMenu(this.id)">插件</a></li>
+    <!--{/if}-->
+    <li><a href="{$webaddr}/op/login&act=logout">退出</a></li>
+    <li id="searchr">
+    <form action="{$webaddr}/browse" method="get">
+    <input type="text" id="searchr-input" name="q" />
+    <input type="hidden" name="act" value="search" />
+    <input type="submit" id="searchr-submit" value="搜索" />
+    </form>
+    </li>
+    <!--{else}-->
+    <li><a href="{$webaddr}/index">首页</a></li>
+    <li><a href="{$webaddr}/browse">随便看看</a></li>
+    <li><a href="{$webaddr}/op/login">登录</a></li>
+    <li><a href="{$webaddr}/op/register">注册</a></li>
+    <!--{/if}-->
+    </ul>
+    </div></div></div></div></div>
+</div>
+</div>
+
+<!--{if ($my[user_id])}--><!--{if ($p1)}--><div class="ads1"><!--{loop $p1 $key $val}--><div style="margin-bottom:5px">$val</div><!--{/loop}--></div><!--{/if}--><!--{/if}-->
+
+<ul class="popupmenu_popup headermenu_popup" id="plugin_menu" style="display: none">{$pluginlist}</ul>
+
+<!--{if ($tips[$tip])}--><div class="tip" id="tip">$tips[$tip]</div> <!--{/if}-->

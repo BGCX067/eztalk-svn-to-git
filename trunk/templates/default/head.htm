@@ -1,0 +1,50 @@
+<div id="info">
+<!--{if ($my[user_id]!=$user[user_id])}-->
+    <div id="avatar"><a href="{$webaddr}/home/u.{$user[user_id]}"><img title="{$user[user_name]}" alt="{$user[user_name]}" src="{$user[user_head]}"/></a></div>
+    <div id="panel">
+        <h1>{$user[user_name]}</h1>
+        <p class="state">
+        <!--{if ($addtime-$user[last_login]<=$lastlogin)}-->
+            <!--{if ($user[isadmin]==1)}-->
+            <span style="padding:0 0 0 20px;background:url({$webaddr}/images/{$temp_dir}/online_admin.gif) no-repeat;">&nbsp;管理员在线
+            <!--{else}-->
+            <span style="padding:0 0 0 20px;background:url({$webaddr}/images/{$temp_dir}/online_member.gif) no-repeat;">&nbsp;用户在线
+            <!--{/if}-->
+        <!--{else}-->
+            <span style="padding:0 0 0 20px;background:url({$webaddr}/images/{$temp_dir}/disonline.gif) no-repeat;">&nbsp;用户离线
+        <!--{/if}-->
+        </span>
+        </p>
+        <p class="actions">
+        <!--{if ($isfriend['fri']==0)}-->
+        <a class="bh" href="##" onclick="jsop('{$webaddr}/home?act=friendadd&uid={$user[user_id]}','确认要添加对 {$user[user_name]} 的关注？')">关注一下</a>
+        <!--{else}-->
+        <a class="bh" href="##" onclick="jsop('{$webaddr}/home?act=fridel&uid={$user[user_id]}','确认要删除对 {$user[user_name]} 的关注吗？')">删除关注</a>
+        <!--{/if}-->
+        <a class="bl" href="{$webaddr}/op/sendmsg/u.{$user[user_id]}">发私信</a>
+        </p>
+    </div>
+<!--{else}-->
+<form method="post" action="{$webaddr}/home" name="message" onSubmit="return isfun()" onkeydown="if(event.ctrlKey&&event.keyCode==13)this.submit()">
+    <h3>随便Talk几句吧！ <span class="headgray">Ctrl+Enter可直接发表</span><span class="headgray" style="margin-left:10px">(<span id="nums">0</span>/140)</span></h3>
+    <table class="top5">
+    <tr>
+    <td><img src="{$my[user_head]}" width="65px" height="65px" alt="{$my[user_name]}" class="imgborder"></td>
+    <td>&nbsp;</td>
+    <td><!--{if ($toname)}-->
+        @{$toname} <br/><textarea name="content" id="contentbox" style="width:300px;height:40px"></textarea>
+        <!--{else}-->
+        <textarea name="content" id="contentbox" style="width:300px;height:60px"></textarea>
+        <!--{/if}--></td>
+    <td>&nbsp;&nbsp;</td>
+    <td><input type="hidden" name="action" value="msgsend" />
+        <input type="hidden" name="toid" value="{$toid}" />
+        <input type="hidden" name="topid" value="{$topicid}" />
+        <input type="hidden" name="status_id" value="{$status_id}" />
+        <input type="hidden" name="status_type" value="{$statustype}" />
+        <input type="submit" class="formbutton" title="按Ctrl+Enter键发送消息" value="发送"/></td>
+    </tr>
+    </table>
+</form>
+<!--{/if}-->
+</div>

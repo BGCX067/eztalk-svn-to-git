@@ -1,0 +1,31 @@
+{template "header.htm"}
+<div id="body" class="ui-roundedbox"><div class="ui-roundedbox-corner ui-roundedbox-tl"><div class="ui-roundedbox-corner ui-roundedbox-tr"><div class="ui-roundedbox-corner ui-roundedbox-bl"><div class="ui-roundedbox-corner ui-roundedbox-br"><div class="ui-roundedbox-content">
+<div id="info" style="padding:20px">
+<div id="avatar"><a href="{$webaddr}/home/u.{$content_uid}"><img src="{$content_uhead}" alt="{$content_uname}"/></a></div>
+<div id="latest">
+    <h1><a href="{$webaddr}/home/u.{$content_uid}">{$content_uname}</a></h1>
+    <h2>{$topic_body}{$content_body}
+    <span class="stamp">{echo timeop($posttime)}&nbsp;&nbsp;通过{$type} 
+    <!--{if ($statusid)}-->
+        <!--{if ($status_type=="talk")}-->
+            <a href="{$webaddr}/op/view/{$statusid}">给{$status_uname}的回复</a>
+        <!--{elseif ($status_type=="photo")}-->
+            <a href="{$webaddr}/op/viewphoto/{$statusid}">给{$status_uname}相片的回复</a>
+        <!--{/if}-->
+    <!--{/if}-->
+    </span>
+    <!--{if ($my[user_id])}-->
+    <span class="op">
+        <a class="share" href="javascript:void(0)" onclick="send_f('{$content_id}')" title="添加到我的收藏">收藏</a>
+        <!--{if ($my[user_id]!=$content_uid)}-->
+        <a class="reply" href="{$webaddr}/home?to={$content_uname}&status_id={$content_id}" title="回复{$content_uname}">回复</a>
+        <!--{/if}-->
+    </span>
+    <!--{/if}-->
+    </h2>
+</div>
+</div>
+</div></div></div></div></div></div></div>
+</div>
+</body>
+</html>

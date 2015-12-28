@@ -1,0 +1,119 @@
+{template "header.htm"}
+<table id="columns">
+<tr><td id="main">
+    <div id="content">
+    <!--{if ($act=="search")}-->
+        <form id="searchpanel" action="{$webaddr}/browse" method="get">
+            <p id="search-switch">
+            <strong>搜索：</strong>
+            <!--{if ($type=="s1")}--><a class="current" href="#"><!--{else}--><a href="{$webaddr}/browse?act=search&q={$q}"><!--{/if}-->全站消息</a> |
+            <!--{if ($type=="s2")}--><a class="current" href="#"><!--{else}--><a href="{$webaddr}/browse?act=search&t=s2&q={$q}"><!--{/if}-->我的消息</a>
+            </p>
+            <p>
+            <input type="hidden" name="act" value="search" />
+            <input type="hidden" name="t" value="$type" />
+            <input class="input_text" type="text" value="{$q}" name="q"/>
+            <input class="formbutton" type="submit" value="搜索"/>
+            </p>
+        </form>
+    <div id="stream" class="message">
+    <!--{else}-->
+    <div id="stream" class="message">
+            <h3>随便看看其他人在做什么...</h3>
+    <!--{/if}-->
+            <ol class="wa">
+            <!--{if ($i>0)}-->
+                <!--{loop $content $key $val}-->
+                <li class="unlight">
+                <a href="{$webaddr}/home/u.{$val[content_uid]}" title="{$val[content_uname]}" class="avatar"><img src="{$val[content_uhead]}" alt="{$val[content_uname]}" /></a>
+                <a href="{$webaddr}/home/u.{$val[content_uid]}" class="author">{$val[content_uname]}</a> 
+                <span class="content">{$val[topic_body].$val[content_body]}</span><br/> 
+                <span class="stamp">
+                    <a href="op/view/{$val[content_id]}">{$val[posttime]}</a>
+                    <span class="method">通过{$val[content_type]} 
+                    <!--{if ($val[statusid])}-->
+                        <!--{if ($val[status_type]=="talk")}-->
+                            <a href="op/view/{$val[statusid]}">给{$val[status_uname]}的回复</a>
+                        <!--{elseif ($val[status_type]=="photo")}-->
+                            <a href="op/viewphoto/{$val[statusid]}">给{$val[status_uname]}相片的回复</a>
+                        <!--{/if}-->
+                    <!--{/if}-->
+                    </span>
+                </span>
+                <span class="op">
+                    <!--{if ($my[user_id])}-->
+                        <a class="share" href="javascript:void(0)" onclick="send_f('{$val[content_id]}')" title="添加到我的收藏">收藏</a>
+                        <!--{if ($my[user_id]!=$val[content_uid])}-->
+                        <a class="reply" href="{$webaddr}/home?to={$val[content_uname]}&status_id={$val[content_id]}" title="回复{$val[content_uname]}">回复</a>
+                        <!--{/if}-->
+                        <!--{if ($my[isadmin]==1)}-->
+                        <a class="delete" href="##" onclick="delmsg('{$webaddr}/browse?act=del&sid={$val[content_id]}','确实要删除此条TALK吗?',this.parentNode.parentNode)">删除</a>
+                        <!--{/if}-->
+                    <!--{/if}-->
+                </span>
+                </li>
+                <!--{/loop}-->
+            <!--{else}-->
+                <center>没有信息可以显示</center>
+            <!--{/if}-->
+            </ol>				
+        </div>
+        <!--{if ($pg_num>1)}-->
+        <ul class="paginator">
+            <!--{if ($pp>0)}-->
+                <li><!--{if (!empty($act))}--><a href='{$webaddr}/browse/p.$pp&act=$act&t=$type&q=$q' title='上一页' ><!--{else}--><a href='{$webaddr}/browse/p.$pp' title='上一页' ><!--{/if}-->上一页</a></li>
+            <!--{/if}-->
+            <!--{if ($np<=$pg_num)}-->
+                <li><!--{if (!empty($act))}--><a href='{$webaddr}/browse/p.$np&act=$act&t=$type&q=$q' title='下一页' ><!--{else}--><a href='{$webaddr}/browse/p.$np' title='下一页' ><!--{/if}-->下一页</a></li>
+            <!--{/if}-->
+        </ul>
+        <!--{/if}-->
+    </div>
+</td>
+<td id="sidebar">
+    <!--{if (!$my[user_id])}-->
+    <div class="sect first-sect">
+        <h2>登录</h2>
+        <form method="post" action="{$webaddr}/op/login" id="login">
+        <p>
+            <label class="label_input" for="mailadres">Email / Uid：</label>
+            <input tabindex="1" type="text" id="mailadres" name="mailadres" class="input_text" value="" />
+        </p>
+        <p>
+            <label class="label_input" for="password">登录密码：</label>
+            <input tabindex="2" type="password" id="password" name="password" class="input_text" value="" maxlength="32" />
+        </p>
+        <p>
+            <label class="label_check" for="rememberMe">
+            <input tabindex="3" type="checkbox" name="rememberMe" id="rememberMe" value="on" />&nbsp;&nbsp;下次自动登录
+            </label>
+        </p>
+        <p class="act">
+            <a href="{$webaddr}/op/reset" id="forgot">忘记密码了？</a>
+            <input type="hidden" name="action" value="login" />
+            <input tabindex="4" type="submit" class="formbutton" value="登录" />
+        </p>
+        </form>
+    </div>
+    <div class="sect">
+    <!--{else}-->
+    <div class="sect first-sect">
+    <!--{/if}-->
+        <h2>公 告</h2>
+        <ul class="tlist">{$announce}</ul>
+    </div>
+    <div class="sect">
+        <h2>专 题</h2>
+        $topiclist
+    </div>
+    <div class="sect">
+        <h2>推荐用户</h2>			
+        <ul class="alist">{$tuijian}</ul>
+    </div>
+    <div class="sect">
+        <h2>唠叨新人</h2>			
+        <ul class="alist">{$newcome}</ul>
+    </div>
+</td></tr>
+</table>
+{template "foot.htm"}

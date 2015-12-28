@@ -1,0 +1,75 @@
+{template "header.htm"}
+<div class="mainarea">
+<div class="maininner">
+<div class="bdrcontent">
+<form method="post" action="index.php">
+    <div class="title"><h3>站点设置</h3></div>
+    <table border="0" width="100%">
+        <tr height="35px">
+            <td width="80"><p align="right">网站名称：</td>
+            <td width="350px"><input name="web_name" type="text" value="{$webn1}" style="width:300px"/></td>
+            <td rowspan="5" valign="top">
+            <b>系统信息</b>
+            <hr style="border:1px dashed; height:1px" color="#DDDDDD">
+            <table border="0">
+                <tr height="30px">
+                    <td width="100px">EasyTalk版本</td>
+                    <td>EasyTalk {$version} <a href="http://www.9italk.com/" target="_blank">查看新版本</a></td>
+                </tr>
+                <tr height="30px">
+                    <td>操作系统及PHP</td>
+                    <td>{$serverinfo}</td>
+                </tr>
+                <tr height="30px">
+                    <td>MySQL版本</td>
+                    <td>{$dbversion}</td>
+                </tr>
+                <tr height="30px">
+                    <td>数据库大小</td>
+                    <td>{$dbsize}</td>
+                </tr>
+            </table>
+            </td>
+        </tr>
+        <tr height="35px">
+            <td><p align="right">网站副标题：</td>
+            <td width="350px"><input name="web_name2" type="text" value="{$webn2}" style="width:300px"/></td>
+        </tr>
+        <tr height="35px">
+            <td><p align="right">网站备案：</td>
+            <td width="350px"><input name="web_miibeian" type="text" value="{$webm}" style="width:300px"/></td>
+        </tr>
+        <tr height="35px">
+            <td><p align="right">网站关键字：</td>
+            <td width="350px"><input name="seokey" type="text" value="{$seokey}" style="width:300px"/></td>
+        </tr>
+        <tr height="35px">
+            <td><p align="right">网站描述：</td>
+            <td width="350px"><input name="description" type="text" value="{$description}" style="width:300px"/></td>
+        </tr>
+    </table>
+    <div class="title"><h3>注册/关闭开关</h3></div>
+    <table border="0" width="100%">
+        <tr height="35px">
+            <td width="80"><p align="right">用户注册：</td>
+            <td><font size="2">允许&nbsp;&nbsp;</font><input type="radio" name="R1" value="V3" <!--{if (!file_exists($filename1))}-->checked<!--{/if}-->>&nbsp;&nbsp;
+            <font size="2">关闭&nbsp;&nbsp;</font><input type="radio" name="R1" value="V4" <!--{if (file_exists($filename1))}-->checked<!--{/if}-->>
+            </td>
+        </tr>
+        <tr height="35px">
+            <td><p align="right">关闭网站：</td>
+            <td><font size="2">关闭&nbsp;&nbsp;</font><input type="radio" name="R2" value="V3" <!--{if (!file_exists($filename2))}-->checked<!--{/if}-->>&nbsp;&nbsp;
+            <font size="2">开启&nbsp;&nbsp;</font><input type="radio" name="R2" value="V4" <!--{if (file_exists($filename2))}-->checked<!--{/if}-->>
+            </td>
+        </tr>
+        <tr height="35px">
+            <td>&nbsp;</td>
+            <td><input type="hidden" name="action" value="edit" /><input type="submit" value="保存设置" /></td>
+        </tr>
+    </table>
+</form>
+</div>
+<br />
+</div>
+</div>
+{template "foot.htm"}

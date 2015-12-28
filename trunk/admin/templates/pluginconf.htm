@@ -1,0 +1,124 @@
+{template "header.htm"}
+
+<script type="text/JavaScript">
+function jsop(url,mes){
+    var mymes;
+    mymes=confirm(mes);
+    if(mymes==true){
+        window.location=url;
+    }
+}
+</script>
+
+<style>
+.var p{line-height:26px}
+.tt {color:#595959;font-weight:bold}
+.bl {color:#000000;font-weight:bold}
+.var input{width:200px}
+.gray{padding-left:20px;color:#8e8e8e}
+</style>
+
+<div class="mainarea">
+<div class="maininner">
+<div class="bdrcontent">
+<!--{if ($act=='edit')}-->
+<div class="title"><h3>插件设置 (<a href="pluginconf.php?act=newplugin">新建插件</a>)</h3></div>
+    <!--{if ($plugin_name)}-->
+    <form method="post" action="pluginconf.php" class="var">
+    <table border="0" width="100%">
+        <tr height="30px">
+            <td width="70px">插件名称</td>
+            <td width="200px"><input type="text" name="pname" value="{$plugin_name}"></td>
+            <td> </td>
+        </tr>
+        <tr height="30px">
+            <td width="70px">排列顺序</td>
+            <td width="200px"><input type="text" name="plistid" value="{$list_id}"></td>
+            <td><span class="gray">数字越小越排在前面，范围1-100</span></td>
+        </tr>
+        <tr height="30px">
+            <td>插件标识符</td>
+            <td><input type="text" name="pidentifier" value="{$plugin_identifier}"></td>
+            <td><span class="gray">标识符只能用英文，是用来唯一标识插件，不能大于50个字符</span></td>
+        </tr>
+        <tr height="30px">
+            <td>插件目录</td>
+            <td>./plugins/<input type="text" name="ppath" value="{$plugin_path}" style="width:140px"></td>
+            <td><span class="gray">请填写plugin目录下的文件夹名称</span></td>
+        </tr>
+        <tr height="30px">
+            <td>插件介绍</td>
+            <td><textarea name="pinfo" style="width:200px">{$plugin_info}</textarea></td>
+            <td> </td>
+        </tr>
+    </table>
+    <br/>
+    <input type="hidden" name="action" value="edit">
+    <input type="hidden" name="pluid" value="{$pluginid}">
+    <input type="submit" value="提  交" style="width:100px"> or <a href="pluginconf.php">返回插件列表</a>
+    </form>
+    <!--{else}-->
+     <div style="margin:20px">不存在的插件，<a href="pluginconf.php">点击返回</a></div>
+    <!--{/if}-->
+<!--{elseif ($act=="newplugin")}-->
+<div class="title"><h3>新建插件</h3></div>
+<form method="post" action="pluginconf.php" class="var">
+    <table border="0" width="100%">
+        <tr height="30px">
+            <td width="70px">插件名称</td>
+            <td width="200px"><input type="text" name="pname"></td>
+            <td> </td>
+        </tr>
+        <tr height="30px">
+            <td>插件标识符</td>
+            <td><input type="text" name="pidentifier"></td>
+            <td><span class="gray">标识符只能用英文，是用来唯一标识插件，不能大于50个字符</span></td>
+        </tr>
+        <tr height="30px">
+            <td>插件目录</td>
+            <td>./plugins/<input type="text" name="ppath" style="width:140px"></td>
+            <td><span class="gray">请填写plugin目录下的文件夹名称</span></td>
+        </tr>
+        <tr height="30px">
+            <td>插件介绍</td>
+            <td><textarea name="pinfo" style="width:200px"></textarea></td>
+            <td> </td>
+        </tr>
+    </table>
+    <br/>
+    <input type="hidden" name="action" value="newplugin">
+    <input type="submit" value="提  交" style="width:100px"> or <a href="pluginconf.php">返回列表</a>
+</form>
+<!--{else}-->
+<div class="title"><h3>插件设置 (<a href="pluginconf.php?act=newplugin">新建插件</a>)</h3></div>
+<div class="main-wraper" style="margin-top:10px;margin-bottom:10px">
+<table>
+<tr>
+    <th width="6%">ID</td>
+    <th width="8%">顺序</td>
+    <th width="18%">插件名称(标识符)</td>
+    <th width="20%">插件路径</td>
+    <th width="20%">介绍</td>
+    <th width="8%">开启</td>
+    <th width="20%">操作</td>
+</tr>
+<!--{loop $plugins $key $val}-->
+    <tr>   
+        <td>{$val[plugin_id]}</td>
+        <td>{$val[list_id]}</td>
+        <td>{$val[plugin_name]}({$val[plugin_identifier]})</td>
+        <td>./plugins/{$val[plugin_path]}</td>
+        <td>{$val[plugin_info]}</td>
+        <td>{$val[plugin_open]}</td>
+        <td><a href="pluginconf.php?act=edit&pluid={$val[plugin_id]}">编辑</a><!--{if ($val[plugin_open]=="否")}--> | <a href="javascript:void(0);" onclick="jsop('pluginconf.php?act=del&pluid={$val[plugin_id]}','确认删除此插件？')">删除</a> | <a href="javascript:void(0);" onclick="jsop('pluginconf.php?act=pluopen&pluid={$val[plugin_id]}','确认要开启此插件？')">开启</a><!--{else}--> | <a href="javascript:void(0);" onclick="jsop('pluginconf.php?act=pluclose&pluid={$val[plugin_id]}','确认要关闭此插件吗？')">关闭</a><!--{/if}--></td>
+    </tr>
+<!--{/loop}-->
+</table>
+</div>
+<!--{/if}-->
+</div>
+<br />
+</div>
+</div>
+
+{template "foot.htm"}

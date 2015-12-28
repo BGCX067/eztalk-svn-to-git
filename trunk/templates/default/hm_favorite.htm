@@ -1,0 +1,59 @@
+<div id="stream" class="message top10">
+<ol class="wa">
+<!--{if ($i>0)}-->
+    <!--{loop $favlist $key $val}-->
+    <li class="unlight">
+    <a href="{$webaddr}/home/u.{$val[home_uid]}" title="{$val[home_uname]}" class="avatar"><img src="{$val[home_uhead]}" alt="{$val[home_uname]}" /></a>
+    <a href="{$webaddr}/home/u.{$val[home_uid]}" class="author">{$val[home_uname]}</a>
+    <span class="content">{$val[topic_body].$val[content]}</span><br/>
+    <span class="stamp">
+        <a href="{$webaddr}/op/view/{$val[contentid]}">{$val[posttime]}</a>
+        <span class="method">通过{$val[type]} 
+        <!--{if ($val[statusid])}-->
+            <!--{if ($val[status_type]=="talk")}-->
+                <a href="{$webaddr}/op/view/{$val[statusid]}">给{$val[status_uname]}的回复</a>
+            <!--{elseif ($val[status_type]=="photo")}-->
+                <a href="{$webaddr}/op/viewphoto/{$val[statusid]}">给{$val[status_uname]}相片的回复</a>
+            <!--{/if}-->
+        <!--{/if}-->
+        </span>
+    </span>
+    <!--{if ($my[user_id])}-->
+    <span class="op">
+        <!--{if ($val[home_uid]!=$my[user_id])}-->
+            <a class="reply" href="{$webaddr}/home?to={$val[home_uname]}&status_id={$val[contentid]}" title="回复{$val[home_uname]}">回复</a>
+        <!--{/if}-->
+        <!--{if ($my[user_id]==$user[user_id])}-->
+            <a class="delete" href="##" onclick="delmsg('{$webaddr}/home/favorite&act=delfav&fid={$val[fav_id]}','确实要删除此收藏吗?',this.parentNode.parentNode)">删除</a>
+        <!--{/if}-->
+    </span>
+    <!--{/if}-->
+    </li>
+    <!--{/loop}-->
+<!--{else}-->
+    <li class="unlight">这里什么信息都没有</li>
+<!--{/if}-->
+</ol>
+</div>
+
+<!--{if ($pg_num>1)}-->
+<ul class="paginator">
+    <!--{if ($page!=1)}-->
+        <li><a href='#' onclick="showhome('favorite','{$user[user_id]}','1')" title='第一页' >第一页</a></li>
+    <!--{/if}-->
+    <!--{if ($pp>0)}-->
+        <li><a href='#' onclick="showhome('favorite','{$user[user_id]}','{$pp}')" title='上一页' >上一页</a></li>
+    <!--{/if}-->
+    <!--{for $page_from $page_end $i}-->
+        <!--{if ($page==$i)}--><li class="current"><!--{else}--><li><!--{/if}--><a href='#' onclick="showhome('favorite','{$user[user_id]}','{$i}')" title='第 $i 页' >$i</a></li>
+    <!--{/for}-->
+    <!--{if ($np<=$pg_num)}-->
+        <li><a href='#' onclick="showhome('favorite','{$user[user_id]}','{$np}')" title='下一页' >下一页</a></li>
+    <!--{/if}-->
+    <!--{if ($page!=$pg_num)}-->
+        <li><a href='#' onclick="showhome('favorite','{$user[user_id]}','{$pg_num}')" title='最后页' >最后页</a></li>
+    <!--{/if}-->
+</ul>
+<!--{/if}-->
+
+<input type="hidden" value="{$total}" id="hmfavorite">

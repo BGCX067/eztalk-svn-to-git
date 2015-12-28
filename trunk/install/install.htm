@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta name="author" content="9iTalk.com" />
+<meta name="MSSmartTagsPreventParsing" content="True" />
+<title>EasyTalk 安装 - EasyTalk 迷你博客</title>
+<link rel="shortcut icon" href="../images/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+          
+<body>
+<div id="container" class="newlook">
+<div id="header"><h1><a href="index.php"><img src="../images/default/logo.png" alt="EasyTalk"/></a></h1></div>
+<!--{if ($step==1)}-->
+<table id="columns">
+<tr>
+<td id="main">
+    <div id="featured">
+        <h2>安装EasyTalk - Step 1</h2>
+        <form method="get" action="install.php" class="vf lf">
+        <p>
+            <!--{if ($s1==1)}-->
+                <font color="blue">../include/cache 目录可写</font>
+            <!--{else}-->
+                <font color="red">../include/cache 目录不可写</font>
+            <!--{/if}-->
+        </p>
+        <p>
+            <!--{if ($s2==1)}-->
+                <font color="blue">../include/syst 目录可写</font>
+            <!--{else}-->
+                <font color="red">../include/syst 目录不可写</font>
+            <!--{/if}-->
+        </p>
+        <p>
+            <!--{if ($s3==1)}-->
+                <font color="blue">../attachments/head 目录可写</font>
+            <!--{else}-->
+                <font color="red">../attachments/head 目录不可写</font>
+            <!--{/if}-->
+        </p>
+        <p>
+            <!--{if ($s4==1)}-->
+                <font color="blue">../attachments/usertemplates 目录可写</font>
+            <!--{else}-->
+                <font color="red">../attachments/usertemplates 目录不可写</font>
+            <!--{/if}-->
+        </p>
+        <p>
+            <!--{if ($s5==1)}-->
+                <font color="blue">../templates/default/cache 目录可写</font>
+            <!--{else}-->
+                <font color="red">../templates/default/cache 目录不可写</font>
+            <!--{/if}-->
+        </p>
+        <p>
+            <!--{if ($s6==1)}-->
+                <font color="blue">../admin/backup 目录可写</font>
+            <!--{else}-->
+                <font color="red">../admin/backup 目录不可写</font>
+            <!--{/if}-->
+        </p>
+        <p>
+            <!--{if ($s7==1)}-->
+                <font color="blue">../admin/templates/cache 目录可写</font>
+            <!--{else}-->
+                <font color="red">../admin/templates/cache 目录不可写</font>
+            <!--{/if}-->
+        </p>
+        <p>
+            <!--{if ($s8==1)}-->
+                <font color="blue">../attachments/photo 目录可写</font>
+            <!--{else}-->
+                <font color="red">../attachments/photo 目录不可写</font>
+            <!--{/if}-->
+        </p>
+        <p class="act">
+            <!--{if ($s1==1 && $s2==1 && $s3==1 && $s4==1 && $s5==1 && $s6==1 && $s7==1 && $s8==1)}-->
+            <input type="hidden" name="step" value="2" />
+            <input tabindex="1" type="submit" class="formbutton" value="检测通过，进入下一步" />
+            <!--{else}-->
+            <input type="button" class="formbutton" value="目录检测未通过" />
+            <!--{/if}-->
+        </p>
+        </form>
+    </div>
+</td>
+<td id="sidebar">
+    <div class="sect first-sect">
+        <p><h2>目录检查</h2>如果您的主机是linux，请确保左侧目录可写，如果您的主机是windows的可以直接点击下一步！</p>
+    </div>
+</td>
+</tr>
+</table>
+<!--{elseif ($step==2)}-->
+<table id="columns">
+<tr>
+<td id="main">
+    <div id="featured">
+        <h2>安装EasyTalk - Step 2</h2>
+        <form method="get" action="install.php" class="vf lf">
+        <p>
+            <label class="label_input" for="server">数据库地址：</label>
+            <input type="text" id="server" name="server" class="input_text" value="$server" disabled />
+        </p>
+        <p>
+            <label class="label_input" for="datauname">数据库用户名：</label>
+            <input type="text" id="datauname" name="datauname" class="input_text" value="$db_username" disabled/>
+        </p>
+        <p>
+            <label class="label_input" for="dataupass">数据库密码：</label>
+            <input type="text" id="dataupass" name="dataupass" class="input_text" value="$db_password" disabled />
+        </p>
+        <p>
+            <label class="label_input" for="database">数据库：</label>
+            <input type="text" id="database" name="database" class="input_text" value="$db_name" disabled/>
+        </p>
+        <p>
+            <label class="label_input" for="webadd">访问域名：</label>
+            <input type="text" id="webadd" name="webadd" class="input_text" value="$webaddr" disabled />
+        </p>
+
+        <p class="act">
+            <input type="hidden" name="act" value="checkinstall" />
+            <input tabindex="1" type="submit" class="formbutton" value="检测安装" />
+        </p>
+        </form>
+    </div>
+</td>
+<td id="sidebar">
+    <div class="sect first-sect">
+        <p><h2>数据库地址</h2>如果是本地请填写“localhost”</p><br/><br/><br/>
+        <p><h2>访问域名</h2>访问域名一定要正确填写，否则不能正常访问</p><br/><br/><br/>
+        <p><h2>检测安装</h2>左边的内容请到 config.inc.php 中修改，修改后点击检测安装</p>
+    </div>
+</td>
+</tr>
+</table>
+<!--{elseif ($step==3)}-->
+<table id="columns">
+<tr>
+<td id="main">
+    <div id="featured">
+        <h2>安装EasyTalk - Step 3</h2>
+        <form method="post" action="install.php?step=4" class="vf lf" name="register">
+        <p>服务器配置已经通过，请设置管理员账号！</p>
+        <p>
+            <label class="label_input" for="username">管理员名：</label>
+            <input tabindex="1" type="text" id="username" name="username" class="input_text" value=""  />
+        </p>
+        <p>
+            <label class="label_input" for="mailadres">Email：</label>
+            <input tabindex="2" type="text" id="mailadres" name="mailadres" class="input_text" value="" />
+        </p>
+        <p>
+            <label class="label_input" for="password1">登录密码：</label>
+            <input tabindex="3" type="password" id="password1" name="password1" class="input_text" value="" maxlength="32" />
+        </p>
+        <p>
+            <label class="label_input" for="password2">确认密码：</label>
+            <input tabindex="4" type="password" id="password2" name="password2" class="input_text" value="" maxlength="32" />
+        </p>
+        <p class="act">
+            <input type="hidden" name="action" value="install" />
+            <input tabindex="5" type="submit" class="formbutton" value="确定安装" />
+        </p>
+        </form>
+    </div>
+</td>
+<td id="sidebar">
+    <div class="sect first-sect">
+        <p><h2>管理员设置</h2>请在左边填写管理员信息，后台地址为./admin</p><br/><br/><br/>
+        <p><h2>确认安装</h2>管理员信息确认后请点击确认安装，系统自动完成安装任务</p>
+    </div>
+</td>
+</tr>
+</table>
+<!--{elseif ($step==4)}-->
+<table id="columns">
+<tr>
+<td id="main">
+    <div id="featured">
+        <h2>安装EasyTalk - Step 4</h2>
+        <textarea name="notice" style="width: 100%;height:200px" readonly id="notice"></textarea><br/><br/>
+        <center><input type='button' class='formbutton' onclick='goindex()' value='安装完成，点击返回主页！'></center>
+    </div>
+</td>
+<td id="sidebar">
+    <div class="sect first-sect">
+        <p><h2>安装完成</h2>简单四步完成EasyTalk安装任务！</p>
+    </div>
+</td>
+</tr>
+</table>
+<script type="text/javascript">
+function $(id) {
+	return document.getElementById(id);
+}
+function showmessage(message) {
+    $('notice').value += message + "\r\n";
+}
+function goindex() {
+    window.location.href="../index.php";
+}
+</script>
+<!--{/if}-->
+<div id="footer" class="ui-roundedbox"><div class="ui-roundedbox-corner ui-roundedbox-tl"><div class="ui-roundedbox-corner ui-roundedbox-tr"><div class="ui-roundedbox-corner ui-roundedbox-bl"><div class="ui-roundedbox-corner ui-roundedbox-br"><div class="ui-roundedbox-content">
+<p>&copy;&nbsp;2007-2009</span>&nbsp;EasyTalk&nbsp;{$version}</p>
+</div></div></div></div></div></div></div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+{template "header.htm"}
+
+<script type="text/javascript">
+function dbctr() {
+    if ($('flashbd').style.display=="none") {
+        $('picdb').style.display="none";
+        $('flashbd').style.display="block";
+
+        $('flashbdli').className="current";
+        $('picdbli').className="";
+    } else {
+        $('picdb').style.display="block";
+        $('flashbd').style.display="none";
+
+        $('flashbdli').className="";
+        $('picdbli').className="current";
+    }
+}
+</script>
+
+<table id="columns">
+<tr>
+<td id="main">
+    <div class="tabs">
+        <ul>
+            <li id="flashbdli" class="current"><a href="##" onclick="dbctr('flashbd')">Flash插件</a></li>
+            <li id="picdbli" class=""><a href="##" onclick="dbctr('picdb')">图片插件</a></li>
+        </ul>
+    </div>
+    
+    <div id="flashbd">
+        <h2>EasyTalk Flash插件</h2>
+        <div class="badgebox">
+        EasyTalk Flash插件支持在您的Blog上实时显示您发布的消息，您可以针对显示效果进行简单设置，然后将下面的代码粘贴到Blog模块里即可。<br/>
+        </div>
+        <table border="0" width="100%">
+            <tr>
+            <td valign="top" height="30px">
+                选择适合您Blog的样式：<br/>
+                <a href="##" onclick="flashstyle('{$my[user_id]}','1')">标准风格</a> | 
+                <a href="##" onclick="flashstyle('{$my[user_id]}','2')">秋意盎然</a> | 
+                <a href="##" onclick="flashstyle('{$my[user_id]}','3')">心境淡然</a> | 
+                <a href="##" onclick="flashstyle('{$my[user_id]}','4')">风中香茗</a> | 
+                <a href="##" onclick="flashstyle('{$my[user_id]}','5')">紫色的梦</a>
+                <input type="hidden" id="sty" value="1">
+                <br/><br/>显示
+                <select id="num">
+                <option value="10">10</option>
+                <option selected="selected" value="20">20</option>
+                </select> 条TALK，Blog服务商：
+                <select id="flashsv">
+                <option value="0">Qzone</option>
+                <option value="1">新浪博客</option>
+                <option value="2">搜狐博客</option>
+                <option value="3">msn space</option>
+                <option value="4">网易博客</option>
+                <option value="5">天涯博客</option>
+                <option value="6">其它博客</option>
+                </select><br/><br/>
+                <div class="badgeflash">Flash源码<br/><textarea name="textarea" id="code" class="badgeflashareatext"/></textarea><br/>复制以上代码到BLOG页面</div>
+                <center><input type="button" class="formbutton top10" value="显示代码" onclick="flashover('$my[user_id]');"/></center>
+            </td>
+            <td valign="top" align="right">
+                <div id="flashdiv">
+                    <embed id="id_flash" height="400" width="180" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" src="{$webaddr}/badge/flashlist.swf?uid=$my[user_id]&num=20&style=1&site={$webaddr}" allowscriptaccess="sameDomain"/>
+                </div>
+            </td>
+            </tr>
+        </table>
+    </div>
+    <div id="picdb" style="display:none">
+    <h2>EasyTalk 图片插件</h2>
+    <div class="badgebox">
+    您可以将EasyTalk 图片插件代码粘贴到论坛或者其他网站，可以显示你的最后一个TALK。<br/>
+    </div>
+    <p><center>图片预览：<img src="{$webaddr}/badge/picsign/{$my[user_id]}.jpg"></center></p><br/>
+    <div class="badgepic">图片地址<br/><textarea name="textarea" id="code" class="badgepicareatext"/>{$webaddr}/badge/picsign/{$my[user_id]}.jpg</textarea></div><br/>
+    <div class="badgepic">图片UBB代码<br/><textarea name="textarea" id="code" class="badgepicareatext"/>[url={$webaddr}/home/u.{$my[user_id]}][img]{$webaddr}/badge/picsign/{$my[user_id]}.jpg[/img][/url]</textarea></div>
+    </div>
+</td>
+<td id="sidebar">
+    <h2>--设置中心菜单--</h2>
+    <div class="stabs">
+	<ul>
+		<li><a href="{$webaddr}/op/setting">基本信息设置</a></li>
+		<li><a href="{$webaddr}/op/account">修改密码</a></li>
+        <li><a href="{$webaddr}/op/mailauth">邮箱验证</a></li>
+        <li class="current"><a href="{$webaddr}/op/badge">插件</a></li>
+        <li><a href="{$webaddr}/op/theme">模板</a></li>
+        <li><a href="{$webaddr}/op/im">MSN / GTalk / QQ</a></li>
+	</ul>
+    </div>
+</td>
+</tr>
+</table>
+{template "foot.htm"}

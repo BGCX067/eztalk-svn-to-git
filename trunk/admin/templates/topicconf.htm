@@ -1,0 +1,59 @@
+{template "header.htm"}
+
+<script type="text/JavaScript">
+function jsop(url,mes){
+    var mymes;
+    mymes=confirm(mes);
+    if(mymes==true){
+        window.location=url;
+    }
+}
+</script>
+
+<div class="mainarea">
+<div class="maininner">
+<div class="bdrcontent">
+<div class="title"><h3>专题设置</h3></div>
+<div class="main-wraper" style="margin-top:10px;margin-bottom:10px">
+<table>
+<tr>
+    <th width="10%">ID</td>
+    <th width="45%">专题名称</td>
+    <th width="15%">开启</td>
+    <th width="30%">操作</td>
+</tr>
+<!--{loop $topic $key $val}-->
+<form action="topicconf.php" method="post" id="{$val[topic_id]}">
+    <tr>   
+        <td>{$val[topic_id]}</td>
+        <td><input type="text" name="tbody" value='{$val[topic_body]}' style="width:300px"></td>
+        <td>{$val[open]}</td>
+        <td>
+        <input type="hidden" name="action" value="edit"><input type="hidden" name="tid" value="{$val[topic_id]}"><input type="submit" value="编辑">&nbsp;&nbsp;
+        <!--{if ($val[open]=="否")}-->
+        <input type="button" onclick="jsop('topicconf.php?act=del&tid={$val[topic_id]}','确认删除此专题？')" value="删除">
+        <input type="button" onclick="jsop('topicconf.php?act=open&tid={$val[topic_id]}','确认开启此专题？')" value="开启">
+        <!--{else}-->
+        <input type="button" onclick="jsop('topicconf.php?act=close&tid={$val[topic_id]}','确认关闭此专题？')" value="关闭">
+        <!--{/if}-->
+        </td>
+    </tr>
+</form>
+<!--{/loop}-->
+<form action="topicconf.php" method="post">
+    <tr>
+        <td>添加：</td>
+        <td><input type="text" name="newbody" value='' style="width:300px"></td>
+        <td>否</td>
+        <td><input type="hidden" name="action" value="addtopic"><input type="submit" value="添 加"></td>
+    </tr>
+</form>
+</table>
+
+</div>
+</div>
+<br />
+</div>
+</div>
+
+{template "foot.htm"}

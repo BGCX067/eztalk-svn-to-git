@@ -1,0 +1,123 @@
+{template "header.htm"}
+<script type="text/javascript" src="{$webaddr}/include/javascript/media.js"></script>
+<script type="text/javascript">
+function sharectr() {
+    if ($('postbox').style.display=="none") {
+        $('postbox').style.display="block";
+        $('ctr').src="{$webaddr}/images/collapsed_no.gif";
+    } else {
+        $('postbox').style.display="none";
+        $('ctr').src="{$webaddr}/images/collapsed_yes.gif";
+    }
+}
+</script>
+
+<div id="body" class="ui-roundedbox"><div class="ui-roundedbox-corner ui-roundedbox-tl"><div class="ui-roundedbox-corner ui-roundedbox-tr"><div class="ui-roundedbox-corner ui-roundedbox-bl"><div class="ui-roundedbox-corner ui-roundedbox-br"><div class="ui-roundedbox-content">
+<div class="inner-content" id="friends">
+<div class="tabs">
+    <ul>
+        <!--{if ($uid=="all")}--><li class="current"><!--{else}--><li><!--{/if}--><a href="{$webaddr}/op/share">大家的分享</a></li>
+        <!--{if ($uid!="all" && $uid==$my[user_id])}--><li class="current"><!--{else}--><li><!--{/if}--><a href="{$webaddr}/op/share/u.$my[user_id]">我的分享</a></li>
+        <!--{if ($uid!="all" && $uid!=$my[user_id])}--><li class="current"><a href="{$webaddr}/op/share/u.$uid">{$sharename}的分享</a></li><!--{/if}-->
+    </ul>
+</div>
+<div id="stream">
+    <div id="finder_finder" style="display: block;">
+    <!--{if ($my[user_id])}-->
+    <div class="linkbg" style="margin-bottom:10px">
+    <h3><img src="{$webaddr}/images/collapsed_yes.gif" id="ctr" onclick="sharectr();" title="收起/展开" alt="收起/展开">&nbsp;&nbsp;我要分享</h3>
+    <div id="postbox" style="display:none;">
+    <form action="{$webaddr}/op/share" method="post">
+    <table border="0" width="100%">
+        <tr height="30px">
+            <td width="230px">分享网址、视频、音乐、Flash、图片地址:</td>
+            <td width="300px"><input type="text" name="link" id="link" class="input_text" value="http://" onfocus="javascript:if('http://'==this.value)this.value='';" onblur="javascript:if(''==this.value)this.value='http://'" style="width:250px;" /></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>分享描述 (最多250个字符,可留空):</td>
+            <td><textarea name="describe" style="width:250px;" rows="3"></textarea></td>
+            <td><input name="action" value="share" type="hidden">
+            <input tabindex="4" type="submit" class="formbutton" value="分享" onclick="javascript:var l=document.getElementById('link').value;if(l.substring(0,7)!='http://' || l=='http://'){alert('您输入的网址不合法！');return false;}" /></td>
+        </tr>
+    </table>
+    </form>
+    </div>
+    </div>
+    <!--{/if}-->
+        <!--{if ($uid=="all")}--><h3>大家的分享<!--{else}--><h3><!--{if ($uid==$my[user_id])}-->我<!--{else}-->$sharename<!--{/if}-->的分享<!--{/if}-->
+        &nbsp;&nbsp;&nbsp;(<a href="{$webaddr}/op/share/u.$uid">所有</a> <a href="{$webaddr}/op/share/u.$uid&type=video">视频</a> <a href="{$webaddr}/op/share/u.$uid&type=music">音乐</a> <a href="{$webaddr}/op/share/u.$uid&type=flash">Flash</a> <a href="{$webaddr}/op/share/u.$uid&type=website">网址</a> <a href="{$webaddr}/op/share/u.$uid&type=picture">图片</a>)</h3>
+        <ol class="wa">
+        <!--{if ($i==0)}-->
+            <div class="topbottom20"><center>暂时还没有分享任何东东！</center></div>
+        <!--{else}-->
+            <!--{loop $share $key $val}-->
+            <li>
+                <a href="{$webaddr}/home/u.{$val[share_uid]}" title="{$val[share_uname]}" class="avatar"><img src="{$val[share_uhead]}" alt="{$val[share_uname]}" width="48px"/></a>
+                <a href="{$webaddr}/home/u.{$val[share_uid]}" class="author">{$val[share_uname]}</a> 
+                <span class="stamp">于 {$val[sharetime]} 分享了{$val[typedc]}&nbsp;(Re:{$val[retimes]})&nbsp;</span>
+                <!--{if ($my[user_id])}-->
+                <a href="{$webaddr}/op/sharereply/{$val[share_id]}" title="评论"><img src="{$webaddr}/images/{$temp_dir}/icon-reply.gif"></a>
+                <!--{/if}-->
+
+                <!--{if ($my[user_id]==$val[share_uid])}-->
+                <a href="##" onclick="delmsg('{$webaddr}/op/share&act=delshare&uid={$uid}&sid={$val[share_id]}','确实要删除此条分享吗?',this.parentNode)" title="删除"><img src="{$webaddr}/images/{$temp_dir}/icon-del.gif"></a>
+                <!--{/if}-->
+                
+                <!--{if ('video' == $val[type])}-->
+                    <div class="media">
+                    <img src="{$webaddr}/images/vd.gif" alt="点击播放" onclick="javascript:showFlash('{$val['link_data']['host']}', '{echo urldecode($val['link_data']['flashvar'])}', this, '{$val[share_id]}');" style="cursor:pointer;" />
+                    </div>
+                <!--{elseif ('music' == $val[type])}-->
+                    <div class="media">
+                    <img src="{$webaddr}/images/music.gif" alt="点击播放" onclick="javascript:showFlash('music', '{echo urldecode($val['link_data']['musicvar'])}', this, '{$val[share_id]}');" style="cursor:pointer;" />
+                    </div>
+                <!--{elseif ('flash' == $val[type])}-->
+                    <div class="media">
+                    <img src="{$webaddr}/images/flash.gif" alt="点击查看" onclick="javascript:showFlash('flash', '{echo urldecode($val['link_data']['flashaddr'])}', this, '{$val[share_id]}');" style="cursor:pointer;" />
+                    </div>
+                <!--{elseif ('picture' == $val[type])}-->
+                    <div class="media">
+                    <img src="$val['link_data']['pictureaddr']" style="width: expression(this.width > 200 ? '200px': true); max-width: 200px;"/>
+                    </div>
+                <!--{/if}-->
+
+                <!--{if ($val[content])}--><div class="quote"><span id="quote" class="q">{$val[content]}</span></div><!--{/if}-->
+
+                <!--{if ($val['link_data']['musicvar'])}-->
+                <div class="linkbg"><a href='{echo urldecode($val[link_data][musicvar])}' target='_blank'>{echo sub_url(urldecode($val['link_data']['musicvar']),50)}</a></div>
+                <!--{elseif ($val['link_data']['flashaddr'])}-->
+                <div class="linkbg"><a href='{echo urldecode($val[link_data][flashaddr])}' target='_blank'>{echo sub_url(urldecode($val['link_data']['flashaddr']),50)}</a></div>
+                <!--{elseif ($val['link_data']['website'])}-->
+                <div class="linkbg"><a href='{echo urldecode($val[link_data][website])}' target='_blank'>{echo sub_url(urldecode($val['link_data']['website']),50)}</a></div>
+                <!--{elseif ($val['link_data']['pictureaddr'])}-->
+                <div class="linkbg"><a href='{echo urldecode($val[link_data][pictureaddr])}' target='_blank'>{echo sub_url(urldecode($val['link_data']['pictureaddr']),50)}</a></div>
+                <!--{/if}-->
+            </li>
+            <!--{/loop}-->
+        <!--{/if}-->
+        </ol>
+    </div>
+</div>
+<!--{if ($pg_num>1)}-->
+<ul class="paginator">
+    <!--{if ($page!=1)}-->
+        <li><a href='{$webaddr}/op/share/u.$uid&type=$tp&page=1' title='第一页' >第一页</a></li>
+    <!--{/if}-->
+    <!--{if ($pp>0)}-->
+        <li><a href='{$webaddr}/op/share/u.$uid&type=$tp&page=$pp' title='上一页' >上一页</a></li>
+    <!--{/if}-->
+    <!--{for $page_from $page_end $i}-->
+        <!--{if ($page==$i)}--><li class="current"><!--{else}--><li><!--{/if}--><a href='{$webaddr}/op/share/u.$uid&type=$tp&page=$i' title='第 $i 页' >$i</a></li>
+    <!--{/for}-->
+    <!--{if ($np<=$pg_num)}-->
+        <li><a href='{$webaddr}/op/share/u.$uid&type=$tp&page=$np' title='下一页' >下一页</a></li>
+    <!--{/if}-->
+    <!--{if ($page!=$pg_num)}-->
+        <li><a href='{$webaddr}/op/share/u.$uid&type=$tp&page=$pg_num' title='最后页' >最后页</a></li>
+    <!--{/if}-->
+</ul>
+<!--{/if}-->
+</div>
+</div></div></div></div></div></div>
+{template "foot.htm"}

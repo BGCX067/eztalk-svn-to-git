@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- EasyTalk 迷你博客系统！分享简单生活-->
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta name="keywords" content="{$seokey},EasyTalk,9italk.com" />
+<meta name="description" content="{$description} - EasyTalk" />
+<meta name="author" content="9iTalk.com" />
+<meta name="MSSmartTagsPreventParsing" content="True" />
+<title><!--{if ($web_name3)}-->{$web_name3} - <!--{/if}-->{$webn1} - {$webn2}</title>
+<link rel="shortcut icon" href="{$webaddr}/images/favicon.ico" />
+{template "style.css.htm"}
+</head>
+          
+<body>
+<div id="container" class="newlook" style="margin-top:100px">
+<div id="header"><h1><a href="{$webaddr}/index"><img src="{$webaddr}/images/{$temp_dir}/{$var_logo}" alt="EasyTalk"/></a></h1></div>
+<div class="ui-roundedbox"><div class="ui-roundedbox-corner ui-roundedbox-tl"><div class="ui-roundedbox-corner ui-roundedbox-tr"><div class="ui-roundedbox-corner ui-roundedbox-bl"><div class="ui-roundedbox-corner ui-roundedbox-br"><div class="ui-roundedbox-content">
+<div style="padding:50px">
+<font color="green" size="2"><b>您好，管理员暂时关闭了网站，请稍等再来，谢谢您的支持！</b></font>
+</div>
+</div></div></div></div></div></div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{template "header.htm"}
+<div class="mainarea">
+<div class="maininner">
+<div class="bdrcontent">
+<div class="title"><h3>信息群发</h3></div>
+<form method="post" action="sendmsg.php">
+    <table border="0" width="100%">
+        <tr height="35px">
+            <td width="80"><p align="right">用户ID：</td>
+            <td><input name="uid" type="text" style="width:200px" /><span class="gray">多个ID之间请用半角逗号","隔开，如 1,2,3,4,5.填写 ALL 则表示发给所有用户</span></td>
+        </tr>
+        <tr height="35px">
+            <td><p align="right">信息内容：</td>
+            <td><textarea rows="5" name="msg" cols="50"></textarea></td>
+        </tr>
+        <tr height="35px">
+            <td>&nbsp;</td>
+            <td><input type="hidden" name="action" value="send" /><input type="submit" value="发送信息" /></td>
+        </tr>
+    </table>
+</form>
+</div>
+<br />
+</div>
+</div>
+{template "foot.htm"}

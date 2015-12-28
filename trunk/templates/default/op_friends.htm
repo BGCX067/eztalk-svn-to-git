@@ -1,0 +1,71 @@
+{template "header.htm"}
+<div id="body" class="ui-roundedbox"><div class="ui-roundedbox-corner ui-roundedbox-tl"><div class="ui-roundedbox-corner ui-roundedbox-tr"><div class="ui-roundedbox-corner ui-roundedbox-bl"><div class="ui-roundedbox-corner ui-roundedbox-br"><div class="ui-roundedbox-content">
+<div class="inner-content" id="friends">
+<div class="tabs">
+    <ul>
+        <!--{if ($act=="fri")}--><li class="current"><!--{else}--><li><!--{/if}--><a href="{$webaddr}/op/friends/u.$uid&act=fri"><!--{if ($uid==$my[user_id])}-->我<!--{else}-->$uname<!--{/if}-->关注的人</a></li>
+        <!--{if ($act=="fol")}--><li class="current"><!--{else}--><li><!--{/if}--><a href="{$webaddr}/op/friends/u.$uid&act=fol">关注<!--{if ($uid==$my[user_id])}-->我<!--{else}-->$uname<!--{/if}-->的人</a></li>
+        <!--{if ($act=="allfri")}--><li class="current"><!--{else}--><li><!--{/if}--><a href="{$webaddr}/op/friends/u.$uid&act=allfri">互相关注（好友）</a></li>
+    </ul>
+    <a href="{$webaddr}/home/u.$uid" class="crumb">返回空间</a>
+</div>
+
+<!--{if ($total==0)}-->
+    <!--{if ($act=="fri")}-->
+        <div class="topbottom20"><center><!--{if ($uid==$my[user_id])}-->您<!--{else}-->$uname<!--{/if}-->还没有关注的人！</center></div>
+    <!--{elseif ($act=="fol")}-->
+        <div class="topbottom20"><center>还没有人关注<!--{if ($uid==$my[user_id])}-->您<!--{else}-->$uname<!--{/if}-->！</center></div>
+    <!--{elseif ($act=="allfri")}-->
+        <div class="topbottom20"><center>还没有人和<!--{if ($uid==$my[user_id])}-->您<!--{else}-->$uname<!--{/if}-->互相关注！</center></div>
+    <!--{/if}-->
+<!--{else}-->
+    <h2>共 {$total} 个</h2>
+    <div id="stream">
+        <ol class="wa">
+        <!--{loop $myfri $key $val}-->
+        <li>
+            <a href="{$webaddr}/home/u.$val['usid']" title="$val['usname']" class="avatar"><img src="$val['ushead']" alt="$val['usname']" width="48px" /></a>
+            <a href="{$webaddr}/home/u.$val['usid']" class="name">$val['usname']</a>
+            <!--{if ($uid==$my[user_id])}-->
+                <!--{if ($act=="fri")}-->
+                    <p class="actions"><a href="{$webaddr}/op/sendmsg/u.$val['usid']" class="bl">发送私信</a><a href="##" class="post_act friend-remove" onclick="delmsg('{$webaddr}/home?act=frienddel&uid=$val['usid']','确认要删除对 $val['usname'] 的关注吗？',this.parentNode.parentNode)">解除关注</a></p>
+                <!--{/if}-->
+                <!--{if ($act=="fol")}-->
+                <p class="actions">
+                    <!--{if ($val['isf']==0)}-->
+                    <a class="bh" href="##" onclick="jsop('{$webaddr}/home?act=friendadd&uid={$val[usid]}&refer={echo urlencode("$webaddr/op/friends/u.".$my[user_id]."&act=fol")}','确认要添加对 {$val['usname']} 的关注？')">关注一下</a>
+                    <!--{/if}-->
+                    <a href="{$webaddr}/op/sendmsg/u.$val['usid']" class="bl">发送私信</a>
+                </p>
+                <!--{/if}-->
+                <!--{if ($act=="allfri")}-->
+                    <p class="actions"><a href="{$webaddr}/op/sendmsg/u.$val['usid']" class="bl">发送私信</a><a href="##" class="post_act friend-remove" onclick="delmsg('{$webaddr}/home?act=frienddel&uid=$val['usid']','确认要删除对 $val['usname'] 的关注吗？',this.parentNode.parentNode)">解除关注</a></p>
+                <!--{/if}-->
+            <!--{/if}-->
+        </li>
+        <!--{/loop}-->
+        </ol>
+    </div>
+    <!--{if ($pg_num>1)}-->
+    <ul class="paginator">
+        <!--{if ($page!=1)}-->
+            <li><a href='{$webaddr}/op/friends/u.$uid/p.1&act=$act' title='第一页' >第一页</a></li>
+        <!--{/if}-->
+        <!--{if ($pp>0)}-->
+            <li><a href='{$webaddr}/op/friends/u.$uid/p.$pp&act=$act' title='上一页' >上一页</a></li>
+        <!--{/if}-->
+        <!--{for $page_from $page_end $i}-->
+            <!--{if ($page==$i)}--><li class="current"><!--{else}--><li><!--{/if}--><a href='{$webaddr}/op/friends/u.$uid/p.$i&act=$act' title='第 $i 页' >$i</a></li>
+        <!--{/for}-->
+        <!--{if ($np<=$pg_num)}-->
+            <li><a href='{$webaddr}/op/friends/u.$uid/p.$np&act=$act' title='下一页' >下一页</a></li>
+        <!--{/if}-->
+        <!--{if ($page!=$pg_num)}-->
+            <li><a href='{$webaddr}/op/friends/u.$uid/p.$pg_num&act=$act' title='最后页' >最后页</a></li>
+        <!--{/if}-->
+    </ul>
+    <!--{/if}-->
+<!--{/if}-->
+</div>
+</div></div></div></div></div></div>
+{template "foot.htm"}
